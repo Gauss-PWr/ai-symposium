@@ -5,15 +5,17 @@
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
 
-  let W = 0, H = 0, t = 0;
+  let W = 0,
+    H = 0,
+    t = 0;
 
   // ── palette ────────────────────────────────────────────────
   const C = {
-    bg:      "#00000e",
-    cyan:    "#00d4ff",
-    purple:  "#8800ee",
+    bg: "#00000e",
+    cyan: "#00d4ff",
+    purple: "#8800ee",
     magenta: "#cc00cc",
-    white:   "#ffffff",
+    white: "#ffffff",
   };
 
   // ── wave lines (declared early — resize() depends on initWaves) ──
@@ -22,20 +24,20 @@
   function initWaves() {
     waves = Array.from({ length: 9 }, () => ({
       yBase: Math.random() * H,
-      amp:   18 + Math.random() * 52,
-      freq:  0.0022 + Math.random() * 0.0038,
+      amp: 18 + Math.random() * 52,
+      freq: 0.0022 + Math.random() * 0.0038,
       phase: Math.random() * Math.PI * 2,
       speed: (0.22 + Math.random() * 0.55) * (Math.random() > 0.5 ? 1 : -1),
       color: Math.random() > 0.5 ? C.cyan : C.purple,
       alpha: 0.04 + Math.random() * 0.12,
-      lw:    0.4 + Math.random() * 0.9,
+      lw: 0.4 + Math.random() * 0.9,
     }));
   }
 
   // ── resize ─────────────────────────────────────────────────
   let resizeTimer;
   function resize() {
-    W = canvas.width  = window.innerWidth;
+    W = canvas.width = window.innerWidth;
     H = canvas.height = window.innerHeight;
     initWaves();
     ctx.fillStyle = C.bg;
@@ -48,9 +50,13 @@
   resize();
 
   // ── perspective grid ───────────────────────────────────────
-  const GC = 24, GR = 15;
-  const GW = 3.2, GD = 2.8;
-  const CAM_Y = 1.25, CAM_Z = -0.25, FOCAL = 1.25;
+  const GC = 24,
+    GR = 15;
+  const GW = 3.2,
+    GD = 2.8;
+  const CAM_Y = 1.25,
+    CAM_Z = -0.25,
+    FOCAL = 1.25;
 
   function project(gx, gy, gz) {
     const rz = gz - CAM_Z;
@@ -58,7 +64,7 @@
     const sc = FOCAL / rz;
     const half = W * 0.44;
     return {
-      x: W * 0.5  + gx * sc * half,
+      x: W * 0.5 + gx * sc * half,
       y: H * 0.74 - (gy - CAM_Y) * sc * half,
     };
   }
@@ -68,7 +74,7 @@
     ctx.lineWidth = 0.5;
 
     for (let r = 0; r <= GR; r++) {
-      const gz    = (r / GR) * GD + 0.18;
+      const gz = (r / GR) * GD + 0.18;
       const depth = (gz - 0.18) / GD;
       if (depth < 0.01) continue;
       ctx.globalAlpha = depth * depth * 0.55;
@@ -76,18 +82,20 @@
       ctx.beginPath();
       let started = false;
       for (let c = 0; c <= GC; c++) {
-        const gx   = (c / GC - 0.5) * GW;
+        const gx = (c / GC - 0.5) * GW;
         const wave = Math.sin(gx * 2.4 + gz * 1.7 - t * 0.0012) * 0.065;
-        const p    = project(gx, wave, gz);
+        const p = project(gx, wave, gz);
         if (!p) continue;
-        if (!started) { ctx.moveTo(p.x, p.y); started = true; }
-        else            ctx.lineTo(p.x, p.y);
+        if (!started) {
+          ctx.moveTo(p.x, p.y);
+          started = true;
+        } else ctx.lineTo(p.x, p.y);
       }
       ctx.stroke();
     }
 
     for (let c = 0; c <= GC; c++) {
-      const gx       = (c / GC - 0.5) * GW;
+      const gx = (c / GC - 0.5) * GW;
       const edgeFade = 1 - Math.abs(gx / (GW * 0.5)) * 0.9;
       if (edgeFade <= 0) continue;
       ctx.globalAlpha = edgeFade * 0.22;
@@ -95,12 +103,14 @@
       ctx.beginPath();
       let started = false;
       for (let r = 0; r <= GR; r++) {
-        const gz   = (r / GR) * GD + 0.18;
+        const gz = (r / GR) * GD + 0.18;
         const wave = Math.sin(gx * 2.4 + gz * 1.7 - t * 0.0012) * 0.065;
-        const p    = project(gx, wave, gz);
+        const p = project(gx, wave, gz);
         if (!p) continue;
-        if (!started) { ctx.moveTo(p.x, p.y); started = true; }
-        else            ctx.lineTo(p.x, p.y);
+        if (!started) {
+          ctx.moveTo(p.x, p.y);
+          started = true;
+        } else ctx.lineTo(p.x, p.y);
       }
       ctx.stroke();
     }
@@ -109,74 +119,212 @@
   }
 
   // ── neural network ─────────────────────────────────────────
-  function nnLayers() {
-    const cx  = W * 0.5;
-    const cy  = H * 0.40;
-    const s   = Math.min(W * 0.21, H * 0.24, 190);
-    const bob = Math.sin(t * 0.0007) * s * 0.042;
-    return [
-      [{ x: cx,             y: cy - s * 0.95 + bob }],
+  const NN = {
+    layers: [
       [
-        { x: cx - s * 0.63, y: cy - s * 0.22 + bob },
-        { x: cx,            y: cy - s * 0.22 + bob },
-        { x: cx + s * 0.63, y: cy - s * 0.22 + bob },
+        {
+          x: 0,
+          y: 0,
+          activation: 0,
+          activationStart: 0,
+          activationDuration: 0,
+          nextActivation: 0,
+        },
+        {
+          x: 0,
+          y: 0,
+          activation: 0,
+          activationStart: 0,
+          activationDuration: 0,
+          nextActivation: 0,
+        },
       ],
       [
-        { x: cx - s * 0.63, y: cy + s * 0.42 + bob },
-        { x: cx,            y: cy + s * 0.42 + bob },
-        { x: cx + s * 0.63, y: cy + s * 0.42 + bob },
+        {
+          x: 0,
+          y: 0,
+          activation: 0,
+          activationStart: 0,
+          activationDuration: 0,
+          nextActivation: 0,
+        },
+        {
+          x: 0,
+          y: 0,
+          activation: 0,
+          activationStart: 0,
+          activationDuration: 0,
+          nextActivation: 0,
+        },
+        {
+          x: 0,
+          y: 0,
+          activation: 0,
+          activationStart: 0,
+          activationDuration: 0,
+          nextActivation: 0,
+        },
       ],
-    ];
+      [
+        {
+          x: 0,
+          y: 0,
+          activation: 0,
+          activationStart: 0,
+          activationDuration: 0,
+          nextActivation: 0,
+        },
+        {
+          x: 0,
+          y: 0,
+          activation: 0,
+          activationStart: 0,
+          activationDuration: 0,
+          nextActivation: 0,
+        },
+      ],
+    ],
+  };
+
+  function initNodeActivations() {
+    const allNodes = NN.layers.flat();
+    allNodes.forEach((node) => {
+      node.activationStart = 0;
+      node.activationDuration = 600 + Math.random() * 400; // 600-1000ms
+      node.nextActivation = t + 2000 + Math.random() * 4000; // Random time 2-6 seconds from now
+    });
+  }
+  initNodeActivations();
+
+  function updateNNPositions() {
+    const cx = W * 0.5;
+    const cy = H * 0.4;
+    const s = Math.min(W * 0.21, H * 0.24, 190);
+    const horizontalGap = s * 0.45; // Gap between layers (now horizontal) - reduced
+
+    // Layer 0 (input) - 2 nodes centered vertically on the left
+    NN.layers[0][0] = {
+      ...NN.layers[0][0],
+      x: cx - horizontalGap,
+      y: cy - s * 0.2,
+    };
+    NN.layers[0][1] = {
+      ...NN.layers[0][1],
+      x: cx - horizontalGap,
+      y: cy + s * 0.2,
+    };
+
+    // Layer 1 (hidden) - 3 nodes centered vertically in the middle
+    NN.layers[1][0] = { ...NN.layers[1][0], x: cx, y: cy - s * 0.3 };
+    NN.layers[1][1] = { ...NN.layers[1][1], x: cx, y: cy };
+    NN.layers[1][2] = { ...NN.layers[1][2], x: cx, y: cy + s * 0.3 };
+
+    // Layer 2 (output) - 2 nodes centered vertically on the right
+    NN.layers[2][0] = {
+      ...NN.layers[2][0],
+      x: cx + horizontalGap,
+      y: cy - s * 0.2,
+    };
+    NN.layers[2][1] = {
+      ...NN.layers[2][1],
+      x: cx + horizontalGap,
+      y: cy + s * 0.2,
+    };
+  }
+
+  function updateNNActivations() {
+    const allNodes = NN.layers.flat();
+    allNodes.forEach((node) => {
+      // Check if it's time to activate this node
+      if (t >= node.nextActivation && node.activation === 0) {
+        node.activationStart = t;
+      }
+
+      // Calculate activation decay
+      const timeSinceActivation = t - node.activationStart;
+      if (
+        timeSinceActivation >= 0 &&
+        timeSinceActivation < node.activationDuration
+      ) {
+        // Smooth activation curve: rise quickly, decay slowly
+        const progress = timeSinceActivation / node.activationDuration;
+        node.activation = Math.exp(-progress * 2.5) * 0.45; // Max 0.45 activation
+      } else {
+        node.activation = 0;
+      }
+
+      // Schedule next activation (only 40% chance to activate again)
+      if (
+        node.activation === 0 &&
+        t >= node.nextActivation + node.activationDuration
+      ) {
+        if (Math.random() < 0.4) {
+          node.nextActivation = t + 1200 + Math.random() * 5000; // 1.2-6.2 seconds
+          node.activationDuration = 600 + Math.random() * 400;
+        } else {
+          node.nextActivation = t + 3000 + Math.random() * 6000; // Wait longer if skipping
+        }
+      }
+    });
   }
 
   function drawNeuralNet() {
-    const layers = nnLayers();
+    updateNNPositions();
+    updateNNActivations();
     ctx.save();
 
-    for (let l = 0; l < layers.length - 1; l++) {
-      for (const a of layers[l]) {
-        for (const b of layers[l + 1]) {
-          const phase = a.x * 0.021 + b.y * 0.014;
-          const pulse = 0.10 + 0.22 * (0.5 + 0.5 * Math.sin(t * 0.0014 + phase));
-          ctx.globalAlpha = pulse;
+    // Draw edges - always visible but subtly brightened on activation
+    for (let l = 0; l < NN.layers.length - 1; l++) {
+      for (const nodeA of NN.layers[l]) {
+        for (const nodeB of NN.layers[l + 1]) {
+          // Edge brightness based on activation of both nodes
+          const edgeActivation = Math.sqrt(nodeA.activation * nodeB.activation);
+
+          ctx.globalAlpha = 0.3 + edgeActivation * 0.4; // More visible edges
           ctx.strokeStyle = C.white;
-          ctx.lineWidth   = 0.7;
+          ctx.lineWidth = 1.2 + edgeActivation * 1.2; // Thicker edges
           ctx.shadowColor = C.cyan;
-          ctx.shadowBlur  = 5;
+          ctx.shadowBlur = 2 + edgeActivation * 4;
           ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
+          ctx.moveTo(nodeA.x, nodeA.y);
+          ctx.lineTo(nodeB.x, nodeB.y);
           ctx.stroke();
         }
       }
     }
 
-    const all = layers.flat();
+    // Draw nodes
     ctx.shadowBlur = 0;
-    for (const nd of all) {
-      const phase = nd.x * 0.024;
-      const pulse = 0.5 + 0.5 * Math.sin(t * 0.0018 + phase);
-      const R     = 8 + pulse * 3.5;
+    const allNodes = NN.layers.flat();
+    for (const node of allNodes) {
+      const baseRadius = 15; // Much bigger nodes
+      const activation = Math.max(0, Math.min(1, node.activation));
+      const glowRadius = baseRadius + activation * 8;
 
-      for (let g = 3; g >= 1; g--) {
-        ctx.globalAlpha = 0.032 * pulse * g;
-        ctx.fillStyle   = C.cyan;
+      // Glow layers
+      for (let g = 2; g >= 1; g--) {
+        ctx.globalAlpha = activation * 0.08 * g;
+        ctx.fillStyle = C.white;
         ctx.beginPath();
-        ctx.arc(nd.x, nd.y, R + g * 7, 0, Math.PI * 2);
+        ctx.arc(node.x, node.y, glowRadius + g * 3, 0, Math.PI * 2);
         ctx.fill();
       }
-      ctx.globalAlpha = 0.95;
-      ctx.fillStyle   = "#000018";
+
+      // Core
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "#000018";
       ctx.beginPath();
-      ctx.arc(nd.x, nd.y, R, 0, Math.PI * 2);
+      ctx.arc(node.x, node.y, baseRadius, 0, Math.PI * 2);
       ctx.fill();
-      ctx.globalAlpha = 0.85 + 0.15 * pulse;
+
+      // Border - always white, brighter on activation
+      ctx.globalAlpha = 0.7 + activation * 0.3;
       ctx.strokeStyle = C.white;
-      ctx.lineWidth   = 1.8;
-      ctx.shadowColor = C.cyan;
-      ctx.shadowBlur  = 14;
+      ctx.lineWidth = 2 + activation * 1.5;
+      ctx.shadowColor = C.white;
+      ctx.shadowBlur = 4 + activation * 8;
       ctx.beginPath();
-      ctx.arc(nd.x, nd.y, R, 0, Math.PI * 2);
+      ctx.arc(node.x, node.y, baseRadius, 0, Math.PI * 2);
       ctx.stroke();
     }
 
@@ -184,38 +332,42 @@
   }
 
   // ── particles ──────────────────────────────────────────────
-  const N_PART  = Math.min(90, Math.max(45, Math.floor((screen.width * screen.height) / 7000)));
+  const N_PART = Math.min(
+    90,
+    Math.max(45, Math.floor((screen.width * screen.height) / 7000))
+  );
   const CONN_D2 = 88 * 88;
 
   const particles = Array.from({ length: N_PART }, () => ({
-    x:     Math.random() * (window.innerWidth  || 800),
-    y:     Math.random() * (window.innerHeight || 600),
-    vx:    (Math.random() - 0.5) * 0.32,
-    vy:    (Math.random() - 0.5) * 0.32,
-    r:     Math.random() * 1.7 + 0.5,
+    x: Math.random() * (window.innerWidth || 800),
+    y: Math.random() * (window.innerHeight || 600),
+    vx: (Math.random() - 0.5) * 0.32,
+    vy: (Math.random() - 0.5) * 0.32,
+    r: Math.random() * 1.7 + 0.5,
     alpha: Math.random() * 0.6 + 0.2,
-    hue:   Math.random() > 0.5 ? C.cyan : C.purple,
+    hue: Math.random() > 0.5 ? C.cyan : C.purple,
   }));
 
   function updateParticles() {
     for (const p of particles) {
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < -5)    p.x = W + 5;
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < -5) p.x = W + 5;
       if (p.x > W + 5) p.x = -5;
-      if (p.y < -5)    p.y = H + 5;
+      if (p.y < -5) p.y = H + 5;
       if (p.y > H + 5) p.y = -5;
     }
   }
 
   function drawParticles() {
     ctx.save();
-    ctx.lineWidth  = 0.4;
+    ctx.lineWidth = 0.4;
     ctx.shadowBlur = 0;
 
     for (let i = 0; i < particles.length; i++) {
       const a = particles[i];
       for (let j = i + 1; j < particles.length; j++) {
-        const b  = particles[j];
+        const b = particles[j];
         const dx = a.x - b.x;
         if (Math.abs(dx) > 88) continue;
         const dy = a.y - b.y;
@@ -233,9 +385,9 @@
 
     for (const p of particles) {
       ctx.globalAlpha = p.alpha;
-      ctx.fillStyle   = p.hue;
+      ctx.fillStyle = p.hue;
       ctx.shadowColor = p.hue;
-      ctx.shadowBlur  = 6;
+      ctx.shadowBlur = 6;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fill();
@@ -249,14 +401,17 @@
 
   function makeDropAt(slot) {
     return {
-      x:     (slot / N_DROPS) * (window.innerWidth || 800) + (Math.random() - 0.5) * 60,
-      y:     Math.random() * (window.innerHeight || 600),
+      x:
+        (slot / N_DROPS) * (window.innerWidth || 800) +
+        (Math.random() - 0.5) * 60,
+      y: Math.random() * (window.innerHeight || 600),
       speed: 0.12 + Math.random() * 0.42,
       chars: Array.from({ length: 5 + Math.floor(Math.random() * 9) }, () =>
-               Math.random() > 0.5 ? "1" : "0"),
+        Math.random() > 0.5 ? "1" : "0"
+      ),
       alpha: 0.08 + Math.random() * 0.28,
-      size:  10 + Math.floor(Math.random() * 5),
-      tick:  0,
+      size: 10 + Math.floor(Math.random() * 5),
+      tick: 0,
     };
   }
 
@@ -269,7 +424,10 @@
       const d = drops[i];
       d.y += d.speed;
       d.tick++;
-      if (d.y > H + 220) { drops[i] = makeDropAt(i); continue; }
+      if (d.y > H + 220) {
+        drops[i] = makeDropAt(i);
+        continue;
+      }
       if (d.tick % (50 + Math.floor(Math.random() * 70)) === 0) {
         d.chars[Math.floor(Math.random() * d.chars.length)] =
           Math.random() > 0.5 ? "1" : "0";
@@ -289,12 +447,12 @@
     ctx.save();
     const step = W > 800 ? 10 : 7;
     for (const w of waves) {
-      w.phase += w.speed * 0.010;
+      w.phase += w.speed * 0.01;
       ctx.globalAlpha = w.alpha;
       ctx.strokeStyle = w.color;
-      ctx.lineWidth   = w.lw;
+      ctx.lineWidth = w.lw;
       ctx.shadowColor = w.color;
-      ctx.shadowBlur  = 3;
+      ctx.shadowBlur = 3;
       ctx.beginPath();
       for (let x = 0; x <= W; x += step) {
         const y = w.yBase + Math.sin(x * w.freq + w.phase) * w.amp;
@@ -307,13 +465,14 @@
 
   // ── ambient centre glow ────────────────────────────────────
   function drawGlow() {
-    const cx    = W * 0.5, cy = H * 0.40;
-    const r     = Math.min(W, H) * 0.38;
+    const cx = W * 0.5,
+      cy = H * 0.4;
+    const r = Math.min(W, H) * 0.38;
     const pulse = 0.5 + 0.5 * Math.sin(t * 0.0006);
-    const g     = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-    g.addColorStop(0,    `rgba(28, 0, 80,  ${0.14 + pulse * 0.06})`);
+    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+    g.addColorStop(0, `rgba(28, 0, 80,  ${0.14 + pulse * 0.06})`);
     g.addColorStop(0.45, `rgba(0,  18, 55, ${0.07 + pulse * 0.03})`);
-    g.addColorStop(1,    "rgba(0, 0, 0, 0)");
+    g.addColorStop(1, "rgba(0, 0, 0, 0)");
     ctx.save();
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);

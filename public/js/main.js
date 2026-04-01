@@ -96,75 +96,186 @@
       }
       ctx.restore();
     }
-    function nnLayers() {
+    const NN = {
+      layers: [
+        [
+          {
+            x: 0,
+            y: 0,
+            activation: 0,
+            activationStart: 0,
+            activationDuration: 0,
+            nextActivation: 0
+          },
+          {
+            x: 0,
+            y: 0,
+            activation: 0,
+            activationStart: 0,
+            activationDuration: 0,
+            nextActivation: 0
+          }
+        ],
+        [
+          {
+            x: 0,
+            y: 0,
+            activation: 0,
+            activationStart: 0,
+            activationDuration: 0,
+            nextActivation: 0
+          },
+          {
+            x: 0,
+            y: 0,
+            activation: 0,
+            activationStart: 0,
+            activationDuration: 0,
+            nextActivation: 0
+          },
+          {
+            x: 0,
+            y: 0,
+            activation: 0,
+            activationStart: 0,
+            activationDuration: 0,
+            nextActivation: 0
+          }
+        ],
+        [
+          {
+            x: 0,
+            y: 0,
+            activation: 0,
+            activationStart: 0,
+            activationDuration: 0,
+            nextActivation: 0
+          },
+          {
+            x: 0,
+            y: 0,
+            activation: 0,
+            activationStart: 0,
+            activationDuration: 0,
+            nextActivation: 0
+          }
+        ]
+      ]
+    };
+    function initNodeActivations() {
+      const allNodes = NN.layers.flat();
+      allNodes.forEach((node) => {
+        node.activationStart = 0;
+        node.activationDuration = 600 + Math.random() * 400;
+        node.nextActivation = t + 2e3 + Math.random() * 4e3;
+      });
+    }
+    initNodeActivations();
+    function updateNNPositions() {
       const cx = W * 0.5;
       const cy = H * 0.4;
       const s = Math.min(W * 0.21, H * 0.24, 190);
-      const bob = Math.sin(t * 7e-4) * s * 0.042;
-      return [
-        [{ x: cx, y: cy - s * 0.95 + bob }],
-        [
-          { x: cx - s * 0.63, y: cy - s * 0.22 + bob },
-          { x: cx, y: cy - s * 0.22 + bob },
-          { x: cx + s * 0.63, y: cy - s * 0.22 + bob }
-        ],
-        [
-          { x: cx - s * 0.63, y: cy + s * 0.42 + bob },
-          { x: cx, y: cy + s * 0.42 + bob },
-          { x: cx + s * 0.63, y: cy + s * 0.42 + bob }
-        ]
-      ];
+      const horizontalGap = s * 0.45;
+      NN.layers[0][0] = {
+        ...NN.layers[0][0],
+        x: cx - horizontalGap,
+        y: cy - s * 0.2
+      };
+      NN.layers[0][1] = {
+        ...NN.layers[0][1],
+        x: cx - horizontalGap,
+        y: cy + s * 0.2
+      };
+      NN.layers[1][0] = { ...NN.layers[1][0], x: cx, y: cy - s * 0.3 };
+      NN.layers[1][1] = { ...NN.layers[1][1], x: cx, y: cy };
+      NN.layers[1][2] = { ...NN.layers[1][2], x: cx, y: cy + s * 0.3 };
+      NN.layers[2][0] = {
+        ...NN.layers[2][0],
+        x: cx + horizontalGap,
+        y: cy - s * 0.2
+      };
+      NN.layers[2][1] = {
+        ...NN.layers[2][1],
+        x: cx + horizontalGap,
+        y: cy + s * 0.2
+      };
+    }
+    function updateNNActivations() {
+      const allNodes = NN.layers.flat();
+      allNodes.forEach((node) => {
+        if (t >= node.nextActivation && node.activation === 0) {
+          node.activationStart = t;
+        }
+        const timeSinceActivation = t - node.activationStart;
+        if (timeSinceActivation >= 0 && timeSinceActivation < node.activationDuration) {
+          const progress = timeSinceActivation / node.activationDuration;
+          node.activation = Math.exp(-progress * 2.5) * 0.45;
+        } else {
+          node.activation = 0;
+        }
+        if (node.activation === 0 && t >= node.nextActivation + node.activationDuration) {
+          if (Math.random() < 0.4) {
+            node.nextActivation = t + 1200 + Math.random() * 5e3;
+            node.activationDuration = 600 + Math.random() * 400;
+          } else {
+            node.nextActivation = t + 3e3 + Math.random() * 6e3;
+          }
+        }
+      });
     }
     function drawNeuralNet() {
-      const layers = nnLayers();
+      updateNNPositions();
+      updateNNActivations();
       ctx.save();
-      for (let l = 0; l < layers.length - 1; l++) {
-        for (const a of layers[l]) {
-          for (const b of layers[l + 1]) {
-            const phase = a.x * 0.021 + b.y * 0.014;
-            const pulse = 0.1 + 0.22 * (0.5 + 0.5 * Math.sin(t * 14e-4 + phase));
-            ctx.globalAlpha = pulse;
+      for (let l = 0; l < NN.layers.length - 1; l++) {
+        for (const nodeA of NN.layers[l]) {
+          for (const nodeB of NN.layers[l + 1]) {
+            const edgeActivation = Math.sqrt(nodeA.activation * nodeB.activation);
+            ctx.globalAlpha = 0.3 + edgeActivation * 0.4;
             ctx.strokeStyle = C.white;
-            ctx.lineWidth = 0.7;
+            ctx.lineWidth = 1.2 + edgeActivation * 1.2;
             ctx.shadowColor = C.cyan;
-            ctx.shadowBlur = 5;
+            ctx.shadowBlur = 2 + edgeActivation * 4;
             ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
+            ctx.moveTo(nodeA.x, nodeA.y);
+            ctx.lineTo(nodeB.x, nodeB.y);
             ctx.stroke();
           }
         }
       }
-      const all = layers.flat();
       ctx.shadowBlur = 0;
-      for (const nd of all) {
-        const phase = nd.x * 0.024;
-        const pulse = 0.5 + 0.5 * Math.sin(t * 18e-4 + phase);
-        const R = 8 + pulse * 3.5;
-        for (let g = 3; g >= 1; g--) {
-          ctx.globalAlpha = 0.032 * pulse * g;
-          ctx.fillStyle = C.cyan;
+      const allNodes = NN.layers.flat();
+      for (const node of allNodes) {
+        const baseRadius = 15;
+        const activation = Math.max(0, Math.min(1, node.activation));
+        const glowRadius = baseRadius + activation * 8;
+        for (let g = 2; g >= 1; g--) {
+          ctx.globalAlpha = activation * 0.08 * g;
+          ctx.fillStyle = C.white;
           ctx.beginPath();
-          ctx.arc(nd.x, nd.y, R + g * 7, 0, Math.PI * 2);
+          ctx.arc(node.x, node.y, glowRadius + g * 3, 0, Math.PI * 2);
           ctx.fill();
         }
-        ctx.globalAlpha = 0.95;
+        ctx.globalAlpha = 1;
         ctx.fillStyle = "#000018";
         ctx.beginPath();
-        ctx.arc(nd.x, nd.y, R, 0, Math.PI * 2);
+        ctx.arc(node.x, node.y, baseRadius, 0, Math.PI * 2);
         ctx.fill();
-        ctx.globalAlpha = 0.85 + 0.15 * pulse;
+        ctx.globalAlpha = 0.7 + activation * 0.3;
         ctx.strokeStyle = C.white;
-        ctx.lineWidth = 1.8;
-        ctx.shadowColor = C.cyan;
-        ctx.shadowBlur = 14;
+        ctx.lineWidth = 2 + activation * 1.5;
+        ctx.shadowColor = C.white;
+        ctx.shadowBlur = 4 + activation * 8;
         ctx.beginPath();
-        ctx.arc(nd.x, nd.y, R, 0, Math.PI * 2);
+        ctx.arc(node.x, node.y, baseRadius, 0, Math.PI * 2);
         ctx.stroke();
       }
       ctx.restore();
     }
-    const N_PART = Math.min(90, Math.max(45, Math.floor(screen.width * screen.height / 7e3)));
+    const N_PART = Math.min(
+      90,
+      Math.max(45, Math.floor(screen.width * screen.height / 7e3))
+    );
     const CONN_D2 = 88 * 88;
     const particles = Array.from({ length: N_PART }, () => ({
       x: Math.random() * (window.innerWidth || 800),
@@ -224,7 +335,10 @@
         x: slot / N_DROPS * (window.innerWidth || 800) + (Math.random() - 0.5) * 60,
         y: Math.random() * (window.innerHeight || 600),
         speed: 0.12 + Math.random() * 0.42,
-        chars: Array.from({ length: 5 + Math.floor(Math.random() * 9) }, () => Math.random() > 0.5 ? "1" : "0"),
+        chars: Array.from(
+          { length: 5 + Math.floor(Math.random() * 9) },
+          () => Math.random() > 0.5 ? "1" : "0"
+        ),
         alpha: 0.08 + Math.random() * 0.28,
         size: 10 + Math.floor(Math.random() * 5),
         tick: 0

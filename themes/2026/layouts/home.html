@@ -8,25 +8,7 @@
   {{ end }}
 {{ end }}
 
-<section id="banner" class="hero">
-  <div class="hero-inner">
-    <p class="eyebrow">Research + Industry + Community</p>
-    <h1>{{ site.Title }}</h1>
-    {{ with .Params.tagline }}
-      <p class="lead">{{ . }}</p>
-    {{ else }}
-      <p class="lead">A one-day gathering on machine learning, agents, and real-world AI systems.</p>
-    {{ end }}
-    <p class="meta">
-      {{ with .Params.eventDate }}<span>{{ . }}</span>{{ end }}
-      {{ with .Params.location }}<span>{{ . }}</span>{{ end }}
-    </p>
-    <div class="hero-actions">
-      <a class="button" href="#schedule">View Schedule</a>
-      <a class="button button-secondary" href="{{ with site.GetPage "/abstracts" }}{{ .RelPermalink }}{{ end }}">Read Abstracts</a>
-    </div>
-  </div>
-</section>
+{{ partial "hero.html" . }}
 
 <section id="schedule" class="panel">
   <div class="panel-head">
