@@ -1,0 +1,10 @@
+{
+ "compilerOptions": {
+  "baseUrl": ".",
+  "paths": {
+   "*": [
+    "../themes/2026/assets/*"
+   ]
+  }
+ }
+}

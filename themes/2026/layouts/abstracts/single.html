@@ -1,0 +1,8 @@
+{{ define "main" }}
+<section class="panel">
+  <h1>{{ .Title }}</h1>
+  {{ with .Params.speaker }}<p class="abstract-speaker">{{ . }}</p>{{ end }}
+  {{ .Content }}
+  <p><a href="{{ with site.GetPage "/abstracts" }}{{ .RelPermalink }}{{ end }}">Back to abstracts</a></p>
+</section>
+{{ end }}

@@ -1,4 +1,8 @@
 {{ define "main" }}
+{{ if and (eq .Section "posts") (eq site.Params.enablePosts false) }}
+  <h1>{{ .Title }}</h1>
+  <p>This section is currently disabled in site configuration.</p>
+{{ else }}
   <h1>{{ .Title }}</h1>
   {{ .Content }}
   {{ range .Pages }}
@@ -7,4 +11,5 @@
       {{ .Summary }}
     </section>
   {{ end }}
+{{ end }}
 {{ end }}

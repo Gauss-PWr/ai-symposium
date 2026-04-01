@@ -1,9 +1,72 @@
 {{ define "main" }}
-  {{ .Content }}
-  {{ range site.RegularPages }}
-    <section>
-      <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-      {{ .Summary }}
-    </section>
+{{ partial "ai-bg-animation.html" . }}
+
+{{ $dayKeys := slice }}
+{{ with hugo.Data.schedule }}
+  {{ range $k, $_ := . }}
+    {{ $dayKeys = $dayKeys | append $k }}
   {{ end }}
+{{ end }}
+
+<section id="banner" class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Research + Industry + Community</p>
+    <h1>{{ site.Title }}</h1>
+    {{ with .Params.tagline }}
+      <p class="lead">{{ . }}</p>
+    {{ else }}
+      <p class="lead">A one-day gathering on machine learning, agents, and real-world AI systems.</p>
+    {{ end }}
+    <p class="meta">
+      {{ with .Params.eventDate }}<span>{{ . }}</span>{{ end }}
+      {{ with .Params.location }}<span>{{ . }}</span>{{ end }}
+    </p>
+    <div class="hero-actions">
+      <a class="button" href="#schedule">View Schedule</a>
+      <a class="button button-secondary" href="{{ with site.GetPage "/abstracts" }}{{ .RelPermalink }}{{ end }}">Read Abstracts</a>
+    </div>
+  </div>
+</section>
+
+<section id="schedule" class="panel">
+  <div class="panel-head">
+    <h2>Schedule</h2>
+    <a href="{{ with site.GetPage "/abstracts" }}{{ .RelPermalink }}{{ end }}">See abstracts</a>
+  </div>
+  {{ if gt (len $dayKeys) 0 }}
+    {{ range sort $dayKeys }}
+      {{ $day := . }}
+      {{ $slots := index hugo.Data.schedule $day }}
+      <article class="schedule-day">
+        <h3>{{ $day }}</h3>
+        <ul class="schedule-list">
+          {{ range $slots }}
+            <li class="schedule-item">
+              <p class="schedule-time">{{ .time }}</p>
+              <div>
+                {{ with .events }}
+                  <ul class="schedule-events">
+                    {{ range . }}
+                      <li>
+                        <h4>{{ .name }}</h4>
+                        {{ with .speaker }}<p class="schedule-speaker">{{ . }}</p>{{ end }}
+                        {{ with .location }}<p class="schedule-meta">{{ . }}</p>{{ end }}
+                        {{ with .type }}<p class="schedule-meta">Track: {{ . }}</p>{{ end }}
+                        {{ with .abstract }}<p>{{ . | markdownify }}</p>{{ end }}
+                      </li>
+                    {{ end }}
+                  </ul>
+                {{ else }}
+                  <p>No events for this timeslot.</p>
+                {{ end }}
+              </div>
+            </li>
+          {{ end }}
+        </ul>
+      </article>
+    {{ end }}
+  {{ else }}
+    <p>Add schedule data files in <code>themes/2026/data/schedule</code> using <code>YYYY-MM-DD.yml</code>.</p>
+  {{ end }}
+</section>
 {{ end }}

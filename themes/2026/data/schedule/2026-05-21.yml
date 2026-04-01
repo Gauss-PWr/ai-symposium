@@ -1,0 +1,33 @@
+- time: "09:00"
+  events:
+    - name: "Registration + Coffee"
+      location: "Main Hall"
+      type: "opening"
+      abstract: "Doors open, welcome desk, and networking."
+- time: "09:30"
+  events:
+    - name: "Opening Keynote: Reliable Agentic Systems"
+      speaker: "Dr. Marta Zielinska"
+      location: "Auditorium A"
+      type: "keynote"
+      abstract: "Design principles for building multi-agent systems that remain controllable in production."
+- time: "11:00"
+  events:
+    - name: "Panel: AI in Central European Industry"
+      speaker: "Leads from robotics, health tech, and fintech"
+      location: "Auditorium A"
+      type: "panel"
+      abstract: "Operational lessons on integrating machine learning into existing organizations."
+- time: "13:00"
+  events:
+    - name: "Research Lightning Talks"
+      location: "Room B"
+      type: "session"
+      abstract: "Short talks from accepted symposium abstracts."
+- time: "15:00"
+  events:
+    - name: "Workshop: Evaluation Beyond Benchmarks"
+      speaker: "Prof. Daniel Sokol"
+      location: "Lab C"
+      type: "workshop"
+      abstract: "Hands-on session on measuring robustness, calibration, and task reliability."

@@ -1,0 +1,17 @@
+{{ define "main" }}
+<section class="panel">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  <div class="abstract-grid">
+    {{ range .Pages.ByTitle }}
+    <article class="abstract-card">
+      <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
+      {{ with .Params.speaker }}
+      <p class="abstract-speaker">{{ . }}</p>
+      {{ end }}
+      <p>{{ .Summary }}</p>
+    </article>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
