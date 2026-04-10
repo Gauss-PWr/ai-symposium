@@ -2,9 +2,8 @@
 	<a class="brand" href="{{ site.Home.RelPermalink }}">{{ site.Title }}</a>
 	<nav class="site-nav" aria-label="Main navigation">
 		<ul>
-			<li><a href="{{ if .IsHome }}#banner{{ else }}{{ site.Home.RelPermalink }}#banner{{ end }}">Banner</a></li>
-			<li><a href="{{ if .IsHome }}#schedule{{ else }}{{ site.Home.RelPermalink }}#schedule{{ end }}">Schedule</a></li>
-			<li><a href="{{ with site.GetPage "/abstracts" }}{{ .RelPermalink }}{{ end }}">Abstracts</a></li>
+			<li><a href="{{ if .IsHome }}#schedule{{ else }}{{ site.Home.RelPermalink }}#schedule{{ end }}">Harmonogram</a></li>
+			<li><a href="{{ with site.GetPage "/abstracts" }}{{ .RelPermalink }}{{ end }}">Abstrakty</a></li>
 			{{ if ne site.Params.enablePosts false }}
 				<li><a href="{{ with site.GetPage "/posts" }}{{ .RelPermalink }}{{ end }}">Posts</a></li>
 			{{ end }}

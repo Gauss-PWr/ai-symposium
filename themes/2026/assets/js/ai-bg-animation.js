@@ -186,13 +186,36 @@
     ],
   };
 
+  const NODE_STAGGER = 180;
+  let activationCycleEnd = 0;
+  let activationCycleRestartAt = 0;
+
+  function scheduleNodeActivationCycle(startTime) {
+    const allNodes = NN.layers.flat();
+
+    allNodes.forEach((node, index) => {
+      node.activationStart = 0;
+      node.activation = 0;
+      node.nextActivation = startTime + index * NODE_STAGGER;
+    });
+
+    const maxDuration = Math.max(
+      ...allNodes.map((node) => node.activationDuration)
+    );
+    activationCycleEnd =
+      startTime + (allNodes.length - 1) * NODE_STAGGER + maxDuration + 900;
+    activationCycleRestartAt = activationCycleEnd + 2500 + Math.random() * 1800;
+  }
+
   function initNodeActivations() {
     const allNodes = NN.layers.flat();
     allNodes.forEach((node) => {
       node.activationStart = 0;
       node.activationDuration = 600 + Math.random() * 400; // 600-1000ms
-      node.nextActivation = t + 2000 + Math.random() * 4000; // Random time 2-6 seconds from now
+      node.nextActivation = 0;
     });
+
+    scheduleNodeActivationCycle(t + 1400 + Math.random() * 800);
   }
   initNodeActivations();
 
@@ -200,40 +223,46 @@
     const cx = W * 0.5;
     const cy = H * 0.4;
     const s = Math.min(W * 0.21, H * 0.24, 190);
-    const horizontalGap = s * 0.45; // Gap between layers (now horizontal) - reduced
+    const horizontalGap = s * 0.90; // Gap between layers (now horizontal) - reduced
 
     // Layer 0 (input) - 2 nodes centered vertically on the left
     NN.layers[0][0] = {
       ...NN.layers[0][0],
       x: cx - horizontalGap,
-      y: cy - s * 0.2,
+      y: cy - s * 0.3,
     };
     NN.layers[0][1] = {
       ...NN.layers[0][1],
       x: cx - horizontalGap,
-      y: cy + s * 0.2,
+      y: cy + s * 0.3,
     };
 
     // Layer 1 (hidden) - 3 nodes centered vertically in the middle
-    NN.layers[1][0] = { ...NN.layers[1][0], x: cx, y: cy - s * 0.3 };
+    NN.layers[1][0] = { ...NN.layers[1][0], x: cx, y: cy - s * 0.55 };
     NN.layers[1][1] = { ...NN.layers[1][1], x: cx, y: cy };
-    NN.layers[1][2] = { ...NN.layers[1][2], x: cx, y: cy + s * 0.3 };
+    NN.layers[1][2] = { ...NN.layers[1][2], x: cx, y: cy + s * 0.65 };
 
     // Layer 2 (output) - 2 nodes centered vertically on the right
     NN.layers[2][0] = {
       ...NN.layers[2][0],
       x: cx + horizontalGap,
-      y: cy - s * 0.2,
+      y: cy - s * 0.25,
     };
     NN.layers[2][1] = {
       ...NN.layers[2][1],
       x: cx + horizontalGap,
-      y: cy + s * 0.2,
+      y: cy + s * 0.25,
     };
   }
 
   function updateNNActivations() {
     const allNodes = NN.layers.flat();
+
+    const allInactive = allNodes.every((node) => node.activation === 0);
+    if (allInactive && t >= activationCycleRestartAt) {
+      scheduleNodeActivationCycle(t + 5000 + Math.random() * 2000);
+    }
+
     allNodes.forEach((node) => {
       // Check if it's time to activate this node
       if (t >= node.nextActivation && node.activation === 0) {
@@ -252,26 +281,26 @@
       } else {
         node.activation = 0;
       }
-
-      // Schedule next activation (only 40% chance to activate again)
-      if (
-        node.activation === 0 &&
-        t >= node.nextActivation + node.activationDuration
-      ) {
-        if (Math.random() < 0.4) {
-          node.nextActivation = t + 1200 + Math.random() * 5000; // 1.2-6.2 seconds
-          node.activationDuration = 600 + Math.random() * 400;
-        } else {
-          node.nextActivation = t + 3000 + Math.random() * 6000; // Wait longer if skipping
-        }
-      }
     });
+
+    // If the current wave has completed and every node is inactive, prepare the next run.
+    if (t >= activationCycleEnd && allNodes.every((node) => node.activation === 0)) {
+      activationCycleRestartAt = Math.max(
+        activationCycleRestartAt,
+        t + 2200 + Math.random() * 4200
+      );
+    }
   }
 
   function drawNeuralNet() {
     updateNNPositions();
     updateNNActivations();
     ctx.save();
+
+    const viewportScale = Math.sqrt((W / 1920) * (H / 1080));
+    const nodeRadius = Math.max(16, Math.min(36, 30 * viewportScale));
+    const edgeLineBase = Math.max(3, nodeRadius * 0.27);
+    const borderLineBase = Math.max(4, nodeRadius * 0.33);
 
     // Draw edges - always visible but subtly brightened on activation
     for (let l = 0; l < NN.layers.length - 1; l++) {
@@ -280,14 +309,26 @@
           // Edge brightness based on activation of both nodes
           const edgeActivation = Math.sqrt(nodeA.activation * nodeB.activation);
 
-          ctx.globalAlpha = 0.3 + edgeActivation * 0.4; // More visible edges
+          ctx.globalAlpha = 1 + edgeActivation * 0.4; // More visible edges
           ctx.strokeStyle = C.white;
-          ctx.lineWidth = 1.2 + edgeActivation * 1.2; // Thicker edges
+          ctx.lineWidth = edgeLineBase + edgeActivation * 1.2; // Thicker edges
           ctx.shadowColor = C.cyan;
-          ctx.shadowBlur = 2 + edgeActivation * 4;
+          // ctx.shadowBlur = 2 + edgeActivation * 4;
+
+          const dx = nodeB.x - nodeA.x;
+          const dy = nodeB.y - nodeA.y;
+          const distance = Math.hypot(dx, dy) || 1;
+          const ux = dx / distance;
+          const uy = dy / distance;
+
+          const startX = nodeA.x + ux * nodeRadius;
+          const startY = nodeA.y + uy * nodeRadius;
+          const endX = nodeB.x - ux * nodeRadius;
+          const endY = nodeB.y - uy * nodeRadius;
+
           ctx.beginPath();
-          ctx.moveTo(nodeA.x, nodeA.y);
-          ctx.lineTo(nodeB.x, nodeB.y);
+          ctx.moveTo(startX, startY);
+          ctx.lineTo(endX, endY);
           ctx.stroke();
         }
       }
@@ -297,32 +338,32 @@
     ctx.shadowBlur = 0;
     const allNodes = NN.layers.flat();
     for (const node of allNodes) {
-      const baseRadius = 15; // Much bigger nodes
+      const baseRadius = nodeRadius; // Much bigger nodes
       const activation = Math.max(0, Math.min(1, node.activation));
-      const glowRadius = baseRadius + activation * 8;
+      const glowRadius = baseRadius + activation * (baseRadius * 0.27);
 
       // Glow layers
       for (let g = 2; g >= 1; g--) {
         ctx.globalAlpha = activation * 0.08 * g;
         ctx.fillStyle = C.white;
         ctx.beginPath();
-        ctx.arc(node.x, node.y, glowRadius + g * 3, 0, Math.PI * 2);
+        ctx.arc(node.x, node.y, glowRadius + g * (baseRadius * 0.1), 0, Math.PI * 2);
         ctx.fill();
       }
 
       // Core
       ctx.globalAlpha = 1;
-      ctx.fillStyle = "#000018";
+      ctx.fillStyle = "#ffffff00";
       ctx.beginPath();
       ctx.arc(node.x, node.y, baseRadius, 0, Math.PI * 2);
       ctx.fill();
 
       // Border - always white, brighter on activation
-      ctx.globalAlpha = 0.7 + activation * 0.3;
+      ctx.globalAlpha = 0.9 + activation * 0.3;
       ctx.strokeStyle = C.white;
-      ctx.lineWidth = 2 + activation * 1.5;
+      ctx.lineWidth = borderLineBase + activation * 1.5;
       ctx.shadowColor = C.white;
-      ctx.shadowBlur = 4 + activation * 8;
+      // ctx.shadowBlur = 4 + activation * 8;
       ctx.beginPath();
       ctx.arc(node.x, node.y, baseRadius, 0, Math.PI * 2);
       ctx.stroke();
@@ -479,6 +520,36 @@
     ctx.restore();
   }
 
+  // ── floating hand image ───────────────────────────────────
+  const handImage = new Image();
+  handImage.src = window.__HAND_IMAGE_URL__ || "/hand.png";
+
+  function drawFloatingHand() {
+    if (!handImage.complete || handImage.naturalWidth === 0) return;
+
+    const floatY = Math.sin(t * 0.00115) * 8;
+    const sway = Math.sin(t * 0.00062) * 0.04;
+    const targetWidth = Math.min(W * 0.60, 980);
+    const aspect = handImage.naturalHeight / handImage.naturalWidth;
+    const targetHeight = targetWidth * aspect;
+
+    ctx.save();
+    ctx.translate(W * 0.52, H * 0.6 + floatY);
+    // ctx.rotate(-0.34 + sway);
+    ctx.globalAlpha = 0.34;
+    // ctx.shadowColor = C.cyan;
+    ctx.shadowBlur = 16;
+    ctx.drawImage(
+      handImage,
+      -targetWidth * 0.58,
+      -targetHeight * 0.47,
+      targetWidth,
+      targetHeight
+    );
+
+    ctx.restore();
+  }
+
   // ── main loop ──────────────────────────────────────────────
   function frame(now) {
     t = now;
@@ -490,6 +561,7 @@
     drawBinary();
     updateParticles();
     drawParticles();
+    drawFloatingHand();
     drawNeuralNet();
     requestAnimationFrame(frame);
   }

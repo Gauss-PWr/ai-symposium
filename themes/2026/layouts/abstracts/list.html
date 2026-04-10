@@ -2,8 +2,14 @@
 <section class="panel">
   <h1>{{ .Title }}</h1>
   {{ .Content }}
+  {{ $abstractPages := .RegularPagesRecursive }}
+  {{ if eq (len $abstractPages) 0 }}
+    {{ with site.GetPage "/abstracts" }}
+      {{ $abstractPages = .RegularPagesRecursive }}
+    {{ end }}
+  {{ end }}
   <div class="abstract-grid">
-    {{ range .Pages.ByTitle }}
+    {{ range $abstractPages.ByTitle }}
     <article class="abstract-card">
       <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
       {{ with .Params.speaker }}

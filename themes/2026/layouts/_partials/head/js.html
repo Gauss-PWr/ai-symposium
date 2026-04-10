@@ -1,3 +1,7 @@
+<script>
+  window.__SITE_ROOT__ = "{{ "/" | relURL }}";
+  window.__HAND_IMAGE_URL__ = '{{ "hand.png" | relURL }}';
+</script>
 {{- with resources.Get "js/main.js" }} {{- $opts := dict "minify" (cond
 hugo.IsDevelopment false true) "sourceMap" (cond hugo.IsDevelopment "linked"
 "none") }} {{- with . | js.Build $opts }} {{- if hugo.IsDevelopment }}

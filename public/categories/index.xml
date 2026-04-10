@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Wrocław AI Symposium 2026</title>
-    <link>http://localhost:1313/ai-symposium/categories/</link>
+    <link>https://gauss.pwr.edu.pl/ai-symposium/categories/</link>
     <description>Recent content in Categories on Wrocław AI Symposium 2026</description>
     <generator>Hugo</generator>
     <language>pl-pl</language>
-    <atom:link href="http://localhost:1313/ai-symposium/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://gauss.pwr.edu.pl/ai-symposium/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

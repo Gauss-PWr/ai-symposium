@@ -2,48 +2,69 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/ai-symposium/abstracts/graph-models-urban-mobility/</loc>
-    <lastmod>2026-02-04T08:00:00+01:00</lastmod>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/abstracts/studencki-research-w-solvro/</loc>
+    <lastmod>2026-04-17T19:20:00+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/ai-symposium/abstracts/efficient-finetuning/</loc>
-    <lastmod>2026-02-03T08:00:00+01:00</lastmod>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/abstracts/odpowiedzialne-programowanie-z-ai/</loc>
+    <lastmod>2026-04-17T19:00:00+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/ai-symposium/abstracts/human-in-the-loop-safety/</loc>
-    <lastmod>2026-02-02T08:00:00+01:00</lastmod>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/abstracts/polaryzacja-polityczna-gauss/</loc>
+    <lastmod>2026-04-17T18:40:00+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/ai-symposium/abstracts/neuro-symbolic-retrieval/</loc>
-    <lastmod>2026-02-01T08:00:00+01:00</lastmod>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/abstracts/ai-z-polskim-paszportem/</loc>
+    <lastmod>2026-04-17T18:20:00+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/ai-symposium/abstracts/</loc>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/abstracts/trigram-indices-log-search/</loc>
+    <lastmod>2026-04-17T17:55:00+01:00</lastmod>
+  </url><url>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/abstracts/synteza-artefaktow-metalicznych-3d/</loc>
+    <lastmod>2026-04-17T17:15:00+01:00</lastmod>
+  </url><url>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/abstracts/regresja-cech-hemodynamicznych/</loc>
+    <lastmod>2026-04-17T16:55:00+01:00</lastmod>
+  </url><url>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/abstracts/ai-w-praktyce-ai4business/</loc>
+    <lastmod>2026-04-17T16:35:00+01:00</lastmod>
+  </url><url>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/abstracts/od-sygnalu-do-interfejsu-eeg/</loc>
+    <lastmod>2026-04-17T16:15:00+01:00</lastmod>
+  </url><url>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/abstracts/ai-w-bny/</loc>
+    <lastmod>2026-04-17T15:50:00+01:00</lastmod>
+  </url><url>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/abstracts/od-pikseli-do-fizyki/</loc>
+    <lastmod>2026-04-17T15:15:00+01:00</lastmod>
+  </url><url>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/abstracts/</loc>
     <lastmod>2026-01-01T08:00:00+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/ai-symposium/tags/blue/</loc>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/tags/blue/</loc>
     <lastmod>2023-03-15T11:00:00-07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/ai-symposium/tags/green/</loc>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/tags/green/</loc>
     <lastmod>2023-03-15T11:00:00-07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/ai-symposium/posts/post-3/</loc>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/posts/post-3/</loc>
     <lastmod>2023-03-15T11:00:00-07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/ai-symposium/tags/red/</loc>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/tags/red/</loc>
     <lastmod>2023-03-15T11:00:00-07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/ai-symposium/tags/</loc>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/tags/</loc>
     <lastmod>2023-03-15T11:00:00-07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/ai-symposium/posts/post-2/</loc>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/posts/post-2/</loc>
     <lastmod>2023-02-15T10:00:00-07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/ai-symposium/posts/post-1/</loc>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/posts/post-1/</loc>
     <lastmod>2023-01-15T09:00:00-07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/ai-symposium/posts/</loc>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/posts/</loc>
     <lastmod>2023-01-01T08:30:00-07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/ai-symposium/</loc>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/</loc>
     <lastmod>2023-01-01T08:00:00-07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/ai-symposium/categories/</loc>
+    <loc>https://gauss.pwr.edu.pl/ai-symposium/categories/</loc>
   </url>
 </urlset>

@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Wrocław AI Symposium 2026</title>
-    <link>http://localhost:1313/ai-symposium/tags/</link>
+    <link>https://gauss.pwr.edu.pl/ai-symposium/tags/</link>
     <description>Recent content in Tags on Wrocław AI Symposium 2026</description>
     <generator>Hugo</generator>
     <language>pl-pl</language>
     <lastBuildDate>Wed, 15 Mar 2023 11:00:00 -0700</lastBuildDate>
-    <atom:link href="http://localhost:1313/ai-symposium/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://gauss.pwr.edu.pl/ai-symposium/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Blue</title>
-      <link>http://localhost:1313/ai-symposium/tags/blue/</link>
+      <link>https://gauss.pwr.edu.pl/ai-symposium/tags/blue/</link>
       <pubDate>Wed, 15 Mar 2023 11:00:00 -0700</pubDate>
-      <guid>http://localhost:1313/ai-symposium/tags/blue/</guid>
+      <guid>https://gauss.pwr.edu.pl/ai-symposium/tags/blue/</guid>
       <description></description>
     </item>
     <item>
       <title>Green</title>
-      <link>http://localhost:1313/ai-symposium/tags/green/</link>
+      <link>https://gauss.pwr.edu.pl/ai-symposium/tags/green/</link>
       <pubDate>Wed, 15 Mar 2023 11:00:00 -0700</pubDate>
-      <guid>http://localhost:1313/ai-symposium/tags/green/</guid>
+      <guid>https://gauss.pwr.edu.pl/ai-symposium/tags/green/</guid>
       <description></description>
     </item>
     <item>
       <title>Red</title>
-      <link>http://localhost:1313/ai-symposium/tags/red/</link>
+      <link>https://gauss.pwr.edu.pl/ai-symposium/tags/red/</link>
       <pubDate>Wed, 15 Mar 2023 11:00:00 -0700</pubDate>
-      <guid>http://localhost:1313/ai-symposium/tags/red/</guid>
+      <guid>https://gauss.pwr.edu.pl/ai-symposium/tags/red/</guid>
       <description></description>
     </item>
   </channel>

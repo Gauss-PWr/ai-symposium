@@ -1,40 +1,89 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Abstracts on Wrocław AI Symposium 2026</title>
-    <link>http://localhost:1313/ai-symposium/abstracts/</link>
-    <description>Recent content in Abstracts on Wrocław AI Symposium 2026</description>
+    <title>Abstrakty on Wrocław AI Symposium 2026</title>
+    <link>https://gauss.pwr.edu.pl/ai-symposium/abstracts/</link>
+    <description>Recent content in Abstrakty on Wrocław AI Symposium 2026</description>
     <generator>Hugo</generator>
     <language>pl-pl</language>
-    <lastBuildDate>Wed, 04 Feb 2026 08:00:00 +0100</lastBuildDate>
-    <atom:link href="http://localhost:1313/ai-symposium/abstracts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 17 Apr 2026 19:20:00 +0100</lastBuildDate>
+    <atom:link href="https://gauss.pwr.edu.pl/ai-symposium/abstracts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Interpretable Graph Models for Urban Mobility</title>
-      <link>http://localhost:1313/ai-symposium/abstracts/graph-models-urban-mobility/</link>
-      <pubDate>Wed, 04 Feb 2026 08:00:00 +0100</pubDate>
-      <guid>http://localhost:1313/ai-symposium/abstracts/graph-models-urban-mobility/</guid>
-      <description>&lt;p&gt;We use graph neural networks with attention maps to forecast transit bottlenecks while preserving interpretability for city planners.&lt;/p&gt;</description>
+      <title>Studencki research w Solvro - biometria żylna</title>
+      <link>https://gauss.pwr.edu.pl/ai-symposium/abstracts/studencki-research-w-solvro/</link>
+      <pubDate>Fri, 17 Apr 2026 19:20:00 +0100</pubDate>
+      <guid>https://gauss.pwr.edu.pl/ai-symposium/abstracts/studencki-research-w-solvro/</guid>
+      <description>&lt;p&gt;Prelekcja przybliży działalność sekcji Machine Learning w strategicznym Kole Naukowym Solvro, ze szczególnym uwzględnieniem współpracy z Katedrą Sztucznej Inteligencji. W pierwszej części zaprezentowany zostanie krótki przegląd inicjatyw i projektów z obszaru ML realizowanych obecnie przez członków organizacji. Główną część wystąpienia stanowić będzie case study obrazujące drogę od studenckiego projektu do pełnoprawnej publikacji naukowej na arenie międzynarodowej. Na przykładzie pracy „Open-Set Vein Biometric Recognition with Deep Metric Learning” (zaakceptowanej na konferencję ICCS 2026), omówiony zostanie pełny workflow badawczy. Przedstawione zostaną wyzwania związane z zarządzaniem zespołem w kole naukowym, wyciągnięte wnioski oraz techniczne szczegóły zrealizowanego rozwiązania. Celem prelekcji jest ukazanie potencjału organizacji studenckich jako środowiska do prowadzenia zaawansowanego R&amp;amp;D oraz promowanie współpracy badawczej na linii pracownicy naukowi – studenci.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Efficient Fine-Tuning for Under-Resourced Domains</title>
-      <link>http://localhost:1313/ai-symposium/abstracts/efficient-finetuning/</link>
-      <pubDate>Tue, 03 Feb 2026 08:00:00 +0100</pubDate>
-      <guid>http://localhost:1313/ai-symposium/abstracts/efficient-finetuning/</guid>
-      <description>&lt;p&gt;A comparative analysis of LoRA variants across legal and public-sector corpora with strict memory and latency constraints.&lt;/p&gt;</description>
+      <title>Odpowiedzialne programowanie z AI</title>
+      <link>https://gauss.pwr.edu.pl/ai-symposium/abstracts/odpowiedzialne-programowanie-z-ai/</link>
+      <pubDate>Fri, 17 Apr 2026 19:00:00 +0100</pubDate>
+      <guid>https://gauss.pwr.edu.pl/ai-symposium/abstracts/odpowiedzialne-programowanie-z-ai/</guid>
+      <description>&lt;p&gt;Prelekcja pokazuje roznice miedzy przypadkowym &amp;ldquo;vibe codingiem&amp;rdquo; a odpowiedzialnym wykorzystaniem AI w profesjonalnych projektach. Omowione zostana praktyki pozwalajace utrzymac jakosc, testowalnosc i bezpieczenstwo rozwiazan tworzonych przy wsparciu modeli.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Human-in-the-Loop Safety for LLM Agents</title>
-      <link>http://localhost:1313/ai-symposium/abstracts/human-in-the-loop-safety/</link>
-      <pubDate>Mon, 02 Feb 2026 08:00:00 +0100</pubDate>
-      <guid>http://localhost:1313/ai-symposium/abstracts/human-in-the-loop-safety/</guid>
-      <description>&lt;p&gt;This work studies intervention points in autonomous workflows and proposes a lightweight protocol for uncertainty signaling in enterprise deployments.&lt;/p&gt;</description>
+      <title>Niemożliwe że tu wcisnęliśmy AI, czyli obliczeniowe mierzenie polaryzacji politycznej</title>
+      <link>https://gauss.pwr.edu.pl/ai-symposium/abstracts/polaryzacja-polityczna-gauss/</link>
+      <pubDate>Fri, 17 Apr 2026 18:40:00 +0100</pubDate>
+      <guid>https://gauss.pwr.edu.pl/ai-symposium/abstracts/polaryzacja-polityczna-gauss/</guid>
+      <description>&lt;p&gt;Polaryzacja polityczna to temat, który w ostatnich latach przyciąga coraz więcej uwagi, zarówno w debacie publicznej, jak i w środowisku naukowym. Naturalną odpowiedzią na to zainteresowanie był rozwój nowych metod badawczych, szczególnie w ramach obliczeniowych nauk społecznych.&#xA;W tej prelekcji opowiem najpierw o tym, jak w ogóle bada się polaryzację polityczną jakie podejścia i metryki pojawiają się w literaturze i do jakich rodzajów polaryzacji się je stosuje. Następnie przejdę do badań, które prowadzimy w ramach Koła Naukowego Statystyki Matematycznej &amp;ldquo;&amp;ldquo;GAUSS&amp;rdquo;&amp;rdquo;.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Neuro-Symbolic Retrieval for Scientific QA</title>
-      <link>http://localhost:1313/ai-symposium/abstracts/neuro-symbolic-retrieval/</link>
-      <pubDate>Sun, 01 Feb 2026 08:00:00 +0100</pubDate>
-      <guid>http://localhost:1313/ai-symposium/abstracts/neuro-symbolic-retrieval/</guid>
-      <description>&lt;p&gt;We present a hybrid retrieval pipeline combining dense vectors with symbolic constraints to reduce hallucinations in scientific question answering workflows.&lt;/p&gt;</description>
+      <title>AI z polskim paszportem. Budowa suwerenności w dobie globalnych gigantów</title>
+      <link>https://gauss.pwr.edu.pl/ai-symposium/abstracts/ai-z-polskim-paszportem/</link>
+      <pubDate>Fri, 17 Apr 2026 18:20:00 +0100</pubDate>
+      <guid>https://gauss.pwr.edu.pl/ai-symposium/abstracts/ai-z-polskim-paszportem/</guid>
+      <description>&lt;p&gt;Wysyłanie wrażliwych danych obywateli do zagranicznych chmur to ryzyko, na które sektor publiczny nie może sobie pozwolić. Podczas wystąpienia opowiem o koncepcji suwerennej AI - budowie bezpiecznych, polskich modeli językowych stanowiących fundament cyfrowej infrastruktury. Wyjaśnię, dlaczego w krytycznych obszarach, takich jak administracja czy medycyna, dedykowane i hostowane lokalnie modele są znacznie bezpieczniejszą alternatywą dla komercyjnych &amp;ldquo;czarnych skrzynek&amp;rdquo;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Trigram Indices for Efficient Log Search at Scale</title>
+      <link>https://gauss.pwr.edu.pl/ai-symposium/abstracts/trigram-indices-log-search/</link>
+      <pubDate>Fri, 17 Apr 2026 17:55:00 +0100</pubDate>
+      <guid>https://gauss.pwr.edu.pl/ai-symposium/abstracts/trigram-indices-log-search/</guid>
+      <description>&lt;p&gt;Indeksy trigramowe do wydajnego przeszukiwania logów na dużą skalę Nowoczesne systemy generują ogromną liczbę logów — często przekraczającą dziesiątki milionów wierszy — które nie mieszczą się w oknie kontekstowym żadnego modelu LLM. Chociaż narzędzie grep może liniowo przeszukiwać ponad 80 milionów wierszy logów, przeszukiwanie metodą brute force staje się zbyt powolne w przypadku zapytań interaktywnych lub powtarzających się. Przedstawiamy praktyczne podejście do przyspieszenia wyszukiwania w logach oparte na wyrażeniach regularnych przy użyciu indeksów trigramowych. Główną ideą jest rozłożenie zapytania wyrażenia regularnego na zbiór warunków trigramowych — podciągów trzyznakowych, które musi zawierać każde dopasowanie do wyrażenia regularnego. Dzięki wstępnemu obliczeniu indeksu trójgramowego dla wszystkich logów możemy szybko wyeliminować zdecydowaną większość wierszy, zanim pełne wyrażenie regularne zostanie w ogóle sprawdzone, co skraca czas wyszukiwania o kilka rzędów wielkości. Indeks trigramów tworzymy przy użyciu tablicy mieszającej, która przyporządkowuje każdy trigram do zbioru wierszy (plików lub bloków) zawierających go. Jako funkcję skrótu dla trigramów proponujemy traktowanie każdej sekwencji trzech znaków jako liczby w systemie pozycyjnym o podstawie 96, odpowiadającym drukowalnemu zakresowi ASCII. Daje to zwarte, wolne od kolizji odwzorowanie wszystkich trigramów na liczby całkowite w przewidywalnym zakresie, umożliwiając wydajne przechowywanie i wyszukiwanie bez obciążenia związanego z użyciem tradycyjnych funkcji skrótu dla ciągów znaków.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Synteza elementów metalicznych 3D w tomografii komputerowej, podejście oparte na modelach generatywnych GAN</title>
+      <link>https://gauss.pwr.edu.pl/ai-symposium/abstracts/synteza-artefaktow-metalicznych-3d/</link>
+      <pubDate>Fri, 17 Apr 2026 17:15:00 +0100</pubDate>
+      <guid>https://gauss.pwr.edu.pl/ai-symposium/abstracts/synteza-artefaktow-metalicznych-3d/</guid>
+      <description>&lt;p&gt;Opracowany framework rozwiązuje problem braku wolumetrycznych danych treningowych dla algorytmów MAR (Metal Artefact Reduction) poprzez sterowaną syntezę artefaktów metalicznych 3D przy użyciu zmodyfikowanej architektury StyleGAN. Dzięki zastosowaniu wariacyjnego enkodera oraz autorskich masek naprowadzających, metoda zapewnia wysoką spójność wolumetryczną i realistyczny wygląd zakłóceń w całym skanie CT. Rozwiązanie to stanowi wydajną alternatywę dla symulacji fizycznych, umożliwiając skuteczniejsze trenowanie i ewaluację modeli głębokiego uczenia w zadaniach redukcji artefaktów.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Regresja cech hemodynamicznych do estymacji spadku ciśnienia z ograniczeniami fizycznymi</title>
+      <link>https://gauss.pwr.edu.pl/ai-symposium/abstracts/regresja-cech-hemodynamicznych/</link>
+      <pubDate>Fri, 17 Apr 2026 16:55:00 +0100</pubDate>
+      <guid>https://gauss.pwr.edu.pl/ai-symposium/abstracts/regresja-cech-hemodynamicznych/</guid>
+      <description>&lt;p&gt;Symulacja obliczeniowej mechaniki płynów (CFD) jest wiodącym podejściem do dokładnego modelowania stanu środowiska fizycznego, np. ciśnienia krwi w układzie sercowo-naczyniowym. Jednakże, ze względu na wysoki poziom szczegółowości symulowanego układu, jakiego wymagają metody CFD, są one zazwyczaj bardzo kosztowne obliczeniowo, co rodzi zapotrzebowanie na rozwiązania wspomagane uczeniem maszynowym. Chociaż metody wykorzystujące uczenie głębokie do estymacji spadku ciśnienia i cząstkowej rezerwy przepływu (FFR) szybko się rozwijają, zmagają się one z potrzebą dostępu do dużych ilości rzadko dostępnych danych rzeczywistych, symulowanych w wielu możliwych scenariuszach, co stanowi wyzwanie z obliczeniowego punktu widzenia. W niniejszej pracy przedstawiamy regresję cech hemodynamicznych (HFR) – metodę estymacji spadku ciśnienia, która poprzez integrację modelowania hemodynamicznego jest w stanie dokonywać generalizacji (uogólnień) z próbek syntetycznych na rzeczywiste. Otrzymane przewidywania spadku ciśnienia testujemy na rzeczywistych geometriach naczyń wieńcowych, porównując je z symulacjami CFD.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>AI w praktyce - działalność koła AI4Business, projekt 4Diagnosis i nasz asystent</title>
+      <link>https://gauss.pwr.edu.pl/ai-symposium/abstracts/ai-w-praktyce-ai4business/</link>
+      <pubDate>Fri, 17 Apr 2026 16:35:00 +0100</pubDate>
+      <guid>https://gauss.pwr.edu.pl/ai-symposium/abstracts/ai-w-praktyce-ai4business/</guid>
+      <description>&lt;p&gt;Przybliżę ten proces od strony technicznej. Porozmawiamy o wyzwaniach związanych z rozkładem polskojęzycznych danych treningowych oraz ewaluacją modeli. Omówimy także architekturę RAG (Retrieval-Augmented Generation) i przyjrzymy się, jak wykorzystanie reprezentacji wektorowych (embeddings) pozwala osadzić model w wewnętrznych bazach wiedzy, co wymiernie redukuje zjawisko halucynacji. Na koniec pokażę, że przy projektowaniu AI dla państwa kluczowymi metrykami sukcesu są transparentność i audytowalność, a nie wyścig w globalnych benchmarkach.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Od sygnału do interfejsu - EEG, przetwarzanie i zastosowania interfejsów mózg-komputer</title>
+      <link>https://gauss.pwr.edu.pl/ai-symposium/abstracts/od-sygnalu-do-interfejsu-eeg/</link>
+      <pubDate>Fri, 17 Apr 2026 16:15:00 +0100</pubDate>
+      <guid>https://gauss.pwr.edu.pl/ai-symposium/abstracts/od-sygnalu-do-interfejsu-eeg/</guid>
+      <description>&lt;p&gt;Pierwsze badanie elektroencefalogramem na człowieku miało miejsce blisko 100 lat temu - zapis, który początkowo spotkał się ze sceptycyzmem środowiska naukowego ostatecznie stał się ważną częścią badań, oraz diagnostyki. Pozostaje także nieinwazyjną metodą rejestracji aktywności mózgu o rozdzielczości czasowej rzędu milisekund, a rozwój metod obliczeniowych otwiera dla niego zastosowania, których ówcześni badacze nawet nie przewidywali. Prezentacja prowadzi przez pełny cykl - od sygnału do zastosowania. Zaczynamy od umiejscowienia EEG wśród metod pomiaru aktywności neuronalnej: zapisy jednostkowe (MUR) i potencjały pola lokalnego (LFP), elektrokortykografia (ECoG) oraz nieinwazyjne EEG skalpowe - każda z tych technik oferuje inny kompromis między rozdzielczością przestrzenną, czasową i inwazyjnością. Następnie przechodzimy do przetwarzania surowego sygnału: filtracji pasmowej, eliminacji artefaktów ocznych i mięśniowych metodą ICA, transformaty falkowej czy Common Spatial Patterns. Na tym fundamencie budowane są metody analizy - od klasycznych potencjałów wywołanych (ERP), przez analizę częstotliwościową, po architektury głębokiego uczenia takie jak EEGNet stworzony do pracy z tymi sygnałami. Dalej omawiamy praktyczne zastosowania tych technik: interfejsy mózg-komputer oparte na wyobrażeniu ruchowym (motor imagery) i potencjałach SSVEP, biometrię oraz rosnącą rolę sztucznej inteligencji w automatycznej diagnostyce i dekodowaniu stanów mózgu. Na koniec - przykłady z naszego podwórka. W KN Neuron zbudowaliśmy działający prototyp systemu biometrii EEG, klasyfikator do klasyfikacji Motor Imagery oraz Hex-o-Spell - klawiatura BCI sterowana wyobrażeniem ruchu i mruganiem. Pokażemy, że od surowej fali do działającego interfejsu droga jest krótsza, niż się wydaje.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>AI w BNY: Od strategii do skalowalnej wartości przedsiębiorstwa</title>
+      <link>https://gauss.pwr.edu.pl/ai-symposium/abstracts/ai-w-bny/</link>
+      <pubDate>Fri, 17 Apr 2026 15:50:00 +0100</pubDate>
+      <guid>https://gauss.pwr.edu.pl/ai-symposium/abstracts/ai-w-bny/</guid>
+      <description>&lt;p&gt;W BNY sztuczna inteligencja to nie tylko eksperymenty — to przede wszystkim dostarczanie praktycznej wartości w codziennej pracy. Poprzez naszą platformę AI o nazwie Eliza, wdrażamy rozwiązania, które usprawniają procesy, zwiększają precyzję, skracają czas realizacji zadań oraz poprawiają jakość obsługi klienta.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Od pikseli do fizyki - uczenie maszynowe w analizie anomalnej dyfuzji</title>
+      <link>https://gauss.pwr.edu.pl/ai-symposium/abstracts/od-pikseli-do-fizyki/</link>
+      <pubDate>Fri, 17 Apr 2026 15:15:00 +0100</pubDate>
+      <guid>https://gauss.pwr.edu.pl/ai-symposium/abstracts/od-pikseli-do-fizyki/</guid>
+      <description>&lt;p&gt;Śledzenie pojedynczych cząsteczek (single particle tracking, SPT) to metoda eksperymentalna, która w ostatnich latach zyskała dużą popularność w badaniach biofizycznych. Pozwala obserwować ruch indywidualnych cząsteczek w żywej materii z wysoką rozdzielczością przestrzenną i czasową. W typowym eksperymencie badane molekuły znakuje się fluorescencyjnymi barwnikami i oświetla impulsami lasera. Rejestrując kolejne pozycje barwnika, można rekonstruować trajektorie cząsteczek oraz wyznaczać lokalne właściwości fizyczne środowiska (np. prędkość przepływu, współczynnik dyfuzji czy lokalną gęstość przeszkód). Analiza trajektorii jest dużym wyzwaniem. Stochastyczny charakter ruchu molekuł wymaga starannie dobranych narzędzi matematycznych, a punktem wyjścia jest zazwyczaj identyfikacja typu ruchu, sama w sobie niosąca informację o mechanicznych właściwościach otoczenia badanej cząsteczki. W wykładzie omówię kilka podejść do tego zagadnienia: od klasycznej analizy średniego przemieszczenia kwadratowego, przez testowanie hipotez statystycznych, uczenie maszynowe oparte na cechach, po metody głębokiego uczenia.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

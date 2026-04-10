@@ -1,0 +1,63 @@
+- time: "15:15 - 15:40"
+  events:
+    - name: "Od pikseli do fizyki - uczenie maszynowe w analizie anomalnej dyfuzji"
+      speaker: "Prof. Janusz Szwabiński"
+      location: "Wydział Matematyki"
+- time: "15:40 - 15:50"
+  events:
+    - name: "Przerwa Techniczna"
+- time: "15:50 - 16:15"
+  events:
+    - name: "AI w BNY: Od strategii do skalowalnej wartości przedsiębiorstwa"
+      speaker: "Marcin Lipa, Grzegorz Kotkowski"
+      location: "BNY"
+- time: "16:15 - 16:35"
+  events:
+    - name: "Od sygnału do interfejsu - EEG, przetwarzanie i zastosowania interfejsów mózg-komputer"
+      speaker: "Grzegorz Szczepanek"
+      location: "KN Neuron"
+- time: "16:35 - 16:55"
+  events:
+    - name: "AI w praktyce - działalność koła AI4Business, projekt 4Diagnosis i nasz asystent"
+      speaker: "Ada Wierzchowiecka, Paweł Przybyłek"
+      location: "AI4Business"
+- time: "16:55 - 17:15"
+  events:
+    - name: "Regresja cech hemodynamicznych do estymacji spadku ciśnienia z ograniczeniami fizycznymi"
+      speaker: "Kuba Chojnacki"
+      location: "Independent Researcher"
+- time: "17:15 - 17:35"
+  events:
+    - name: "Synteza elementów metalicznych 3D w tomografii komputerowej, podejście oparte na modelach generatywnych GAN"
+      speaker: "Igor Hołowacz"
+      location: "KN Matematyki Przemysłowej"
+- time: "17:35 - 17:55"
+  events:
+    - name: "Przerwa Networkingowa"
+- time: "17:55 - 18:20"
+  events:
+    - name: "Trigram Indices for Efficient Log Search at Scale"
+      speaker: "Maciej Trojnar"
+      location: "NOKIA"
+- time: "18:20 - 18:40"
+  events:
+    - name: "AI z polskim paszportem. Budowa suwerenności w dobie globalnych gigantów"
+      speaker: "Mikołaj Lagner"
+- time: "18:40 - 19:00"
+  events:
+    - name: "Niemożliwe że tu wcisnęliśmy AI, czyli obliczeniowe mierzenie polaryzacji politycznej"
+      speaker: "Dominik Jur"
+      location: "KN Gauss"
+- time: "19:00 - 19:20"
+  events:
+    - name: "Odpowiedzialne programowanie z AI"
+      speaker: "Mieszko Czubiński"
+      location: "WMS_DEV"
+- time: "19:20 - 19:40"
+  events:
+    - name: "Studencki research w Solvro - biometria żylna"
+      speaker: "Marcel Musiałek"
+      location: "KN Solvro"
+- time: "19:40 - 19:50"
+  events:
+    - name: "Podsumowanie i zakończenie"

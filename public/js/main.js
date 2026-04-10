@@ -162,46 +162,67 @@
         ]
       ]
     };
+    const NODE_STAGGER = 180;
+    let activationCycleEnd = 0;
+    let activationCycleRestartAt = 0;
+    function scheduleNodeActivationCycle(startTime) {
+      const allNodes = NN.layers.flat();
+      allNodes.forEach((node, index) => {
+        node.activationStart = 0;
+        node.activation = 0;
+        node.nextActivation = startTime + index * NODE_STAGGER;
+      });
+      const maxDuration = Math.max(
+        ...allNodes.map((node) => node.activationDuration)
+      );
+      activationCycleEnd = startTime + (allNodes.length - 1) * NODE_STAGGER + maxDuration + 900;
+      activationCycleRestartAt = activationCycleEnd + 2500 + Math.random() * 1800;
+    }
     function initNodeActivations() {
       const allNodes = NN.layers.flat();
       allNodes.forEach((node) => {
         node.activationStart = 0;
         node.activationDuration = 600 + Math.random() * 400;
-        node.nextActivation = t + 2e3 + Math.random() * 4e3;
+        node.nextActivation = 0;
       });
+      scheduleNodeActivationCycle(t + 1400 + Math.random() * 800);
     }
     initNodeActivations();
     function updateNNPositions() {
       const cx = W * 0.5;
       const cy = H * 0.4;
       const s = Math.min(W * 0.21, H * 0.24, 190);
-      const horizontalGap = s * 0.45;
+      const horizontalGap = s * 0.9;
       NN.layers[0][0] = {
         ...NN.layers[0][0],
         x: cx - horizontalGap,
-        y: cy - s * 0.2
+        y: cy - s * 0.3
       };
       NN.layers[0][1] = {
         ...NN.layers[0][1],
         x: cx - horizontalGap,
-        y: cy + s * 0.2
+        y: cy + s * 0.3
       };
-      NN.layers[1][0] = { ...NN.layers[1][0], x: cx, y: cy - s * 0.3 };
+      NN.layers[1][0] = { ...NN.layers[1][0], x: cx, y: cy - s * 0.55 };
       NN.layers[1][1] = { ...NN.layers[1][1], x: cx, y: cy };
-      NN.layers[1][2] = { ...NN.layers[1][2], x: cx, y: cy + s * 0.3 };
+      NN.layers[1][2] = { ...NN.layers[1][2], x: cx, y: cy + s * 0.65 };
       NN.layers[2][0] = {
         ...NN.layers[2][0],
         x: cx + horizontalGap,
-        y: cy - s * 0.2
+        y: cy - s * 0.25
       };
       NN.layers[2][1] = {
         ...NN.layers[2][1],
         x: cx + horizontalGap,
-        y: cy + s * 0.2
+        y: cy + s * 0.25
       };
     }
     function updateNNActivations() {
       const allNodes = NN.layers.flat();
+      const allInactive = allNodes.every((node) => node.activation === 0);
+      if (allInactive && t >= activationCycleRestartAt) {
+        scheduleNodeActivationCycle(t + 5e3 + Math.random() * 2e3);
+      }
       allNodes.forEach((node) => {
         if (t >= node.nextActivation && node.activation === 0) {
           node.activationStart = t;
@@ -213,32 +234,42 @@
         } else {
           node.activation = 0;
         }
-        if (node.activation === 0 && t >= node.nextActivation + node.activationDuration) {
-          if (Math.random() < 0.4) {
-            node.nextActivation = t + 1200 + Math.random() * 5e3;
-            node.activationDuration = 600 + Math.random() * 400;
-          } else {
-            node.nextActivation = t + 3e3 + Math.random() * 6e3;
-          }
-        }
       });
+      if (t >= activationCycleEnd && allNodes.every((node) => node.activation === 0)) {
+        activationCycleRestartAt = Math.max(
+          activationCycleRestartAt,
+          t + 2200 + Math.random() * 4200
+        );
+      }
     }
     function drawNeuralNet() {
       updateNNPositions();
       updateNNActivations();
       ctx.save();
+      const viewportScale = Math.sqrt(W / 1920 * (H / 1080));
+      const nodeRadius = Math.max(16, Math.min(36, 30 * viewportScale));
+      const edgeLineBase = Math.max(3, nodeRadius * 0.27);
+      const borderLineBase = Math.max(4, nodeRadius * 0.33);
       for (let l = 0; l < NN.layers.length - 1; l++) {
         for (const nodeA of NN.layers[l]) {
           for (const nodeB of NN.layers[l + 1]) {
             const edgeActivation = Math.sqrt(nodeA.activation * nodeB.activation);
-            ctx.globalAlpha = 0.3 + edgeActivation * 0.4;
+            ctx.globalAlpha = 1 + edgeActivation * 0.4;
             ctx.strokeStyle = C.white;
-            ctx.lineWidth = 1.2 + edgeActivation * 1.2;
+            ctx.lineWidth = edgeLineBase + edgeActivation * 1.2;
             ctx.shadowColor = C.cyan;
-            ctx.shadowBlur = 2 + edgeActivation * 4;
+            const dx = nodeB.x - nodeA.x;
+            const dy = nodeB.y - nodeA.y;
+            const distance = Math.hypot(dx, dy) || 1;
+            const ux = dx / distance;
+            const uy = dy / distance;
+            const startX = nodeA.x + ux * nodeRadius;
+            const startY = nodeA.y + uy * nodeRadius;
+            const endX = nodeB.x - ux * nodeRadius;
+            const endY = nodeB.y - uy * nodeRadius;
             ctx.beginPath();
-            ctx.moveTo(nodeA.x, nodeA.y);
-            ctx.lineTo(nodeB.x, nodeB.y);
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
             ctx.stroke();
           }
         }
@@ -246,26 +277,25 @@
       ctx.shadowBlur = 0;
       const allNodes = NN.layers.flat();
       for (const node of allNodes) {
-        const baseRadius = 15;
+        const baseRadius = nodeRadius;
         const activation = Math.max(0, Math.min(1, node.activation));
-        const glowRadius = baseRadius + activation * 8;
+        const glowRadius = baseRadius + activation * (baseRadius * 0.27);
         for (let g = 2; g >= 1; g--) {
           ctx.globalAlpha = activation * 0.08 * g;
           ctx.fillStyle = C.white;
           ctx.beginPath();
-          ctx.arc(node.x, node.y, glowRadius + g * 3, 0, Math.PI * 2);
+          ctx.arc(node.x, node.y, glowRadius + g * (baseRadius * 0.1), 0, Math.PI * 2);
           ctx.fill();
         }
         ctx.globalAlpha = 1;
-        ctx.fillStyle = "#000018";
+        ctx.fillStyle = "#ffffff00";
         ctx.beginPath();
         ctx.arc(node.x, node.y, baseRadius, 0, Math.PI * 2);
         ctx.fill();
-        ctx.globalAlpha = 0.7 + activation * 0.3;
+        ctx.globalAlpha = 0.9 + activation * 0.3;
         ctx.strokeStyle = C.white;
-        ctx.lineWidth = 2 + activation * 1.5;
+        ctx.lineWidth = borderLineBase + activation * 1.5;
         ctx.shadowColor = C.white;
-        ctx.shadowBlur = 4 + activation * 8;
         ctx.beginPath();
         ctx.arc(node.x, node.y, baseRadius, 0, Math.PI * 2);
         ctx.stroke();
@@ -400,6 +430,28 @@
       ctx.fillRect(0, 0, W, H);
       ctx.restore();
     }
+    const handImage = new Image();
+    handImage.src = window.__HAND_IMAGE_URL__ || "/hand.png";
+    function drawFloatingHand() {
+      if (!handImage.complete || handImage.naturalWidth === 0) return;
+      const floatY = Math.sin(t * 115e-5) * 8;
+      const sway = Math.sin(t * 62e-5) * 0.04;
+      const targetWidth = Math.min(W * 0.6, 980);
+      const aspect = handImage.naturalHeight / handImage.naturalWidth;
+      const targetHeight = targetWidth * aspect;
+      ctx.save();
+      ctx.translate(W * 0.52, H * 0.6 + floatY);
+      ctx.globalAlpha = 0.34;
+      ctx.shadowBlur = 16;
+      ctx.drawImage(
+        handImage,
+        -targetWidth * 0.58,
+        -targetHeight * 0.47,
+        targetWidth,
+        targetHeight
+      );
+      ctx.restore();
+    }
     function frame(now) {
       t = now;
       ctx.fillStyle = "rgba(0, 0, 14, 0.23)";
@@ -410,6 +462,7 @@
       drawBinary();
       updateParticles();
       drawParticles();
+      drawFloatingHand();
       drawNeuralNet();
       requestAnimationFrame(frame);
     }
@@ -417,5 +470,41 @@
     ctx.fillRect(0, 0, W, H);
     requestAnimationFrame(frame);
   })();
+
+  // <stdin>
+  function initHomeFirstVisitObserver() {
+    const scheduleSection = document.getElementById("schedule");
+    if (!scheduleSection) return;
+    const revealTargets = document.querySelectorAll(
+      ".hero-logo, .panel, .schedule-day, .schedule-item"
+    );
+    if (revealTargets.length === 0) return;
+    revealTargets.forEach((el) => {
+      el.classList.add("reveal-first-visit");
+      if (el.classList.contains("hero-logo")) {
+        el.classList.add("reveal-hero-logo");
+      }
+    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("reveal-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        root: null,
+        threshold: 0.16,
+        rootMargin: "0px 0px -10% 0px"
+      }
+    );
+    revealTargets.forEach((el) => observer.observe(el));
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initHomeFirstVisitObserver);
+  } else {
+    initHomeFirstVisitObserver();
+  }
 })();
 //# sourceMappingURL=main.js.map

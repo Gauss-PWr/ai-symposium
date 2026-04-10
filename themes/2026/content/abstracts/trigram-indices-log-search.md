@@ -1,0 +1,8 @@
++++
+title = "Trigram Indices for Efficient Log Search at Scale"
+date = 2026-04-17T17:55:00+01:00
+draft = false
+speaker = "Maciej Trojnar"
++++
+
+Indeksy trigramowe do wydajnego przeszukiwania logów na dużą skalę Nowoczesne systemy generują ogromną liczbę logów — często przekraczającą dziesiątki milionów wierszy — które nie mieszczą się w oknie kontekstowym żadnego modelu LLM. Chociaż narzędzie grep może liniowo przeszukiwać ponad 80 milionów wierszy logów, przeszukiwanie metodą brute force staje się zbyt powolne w przypadku zapytań interaktywnych lub powtarzających się. Przedstawiamy praktyczne podejście do przyspieszenia wyszukiwania w logach oparte na wyrażeniach regularnych przy użyciu indeksów trigramowych. Główną ideą jest rozłożenie zapytania wyrażenia regularnego na zbiór warunków trigramowych — podciągów trzyznakowych, które musi zawierać każde dopasowanie do wyrażenia regularnego. Dzięki wstępnemu obliczeniu indeksu trójgramowego dla wszystkich logów możemy szybko wyeliminować zdecydowaną większość wierszy, zanim pełne wyrażenie regularne zostanie w ogóle sprawdzone, co skraca czas wyszukiwania o kilka rzędów wielkości. Indeks trigramów tworzymy przy użyciu tablicy mieszającej, która przyporządkowuje każdy trigram do zbioru wierszy (plików lub bloków) zawierających go. Jako funkcję skrótu dla trigramów proponujemy traktowanie każdej sekwencji trzech znaków jako liczby w systemie pozycyjnym o podstawie 96, odpowiadającym drukowalnemu zakresowi ASCII. Daje to zwarte, wolne od kolizji odwzorowanie wszystkich trigramów na liczby całkowite w przewidywalnym zakresie, umożliwiając wydajne przechowywanie i wyszukiwanie bez obciążenia związanego z użyciem tradycyjnych funkcji skrótu dla ciągów znaków.

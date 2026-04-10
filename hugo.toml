@@ -2,6 +2,7 @@ baseURL = 'https://gauss.pwr.edu.pl/ai-symposium/'
 locale = 'pl-pl'
 title = 'Wrocław AI Symposium 2026'
 theme = '2026'
+buildFuture = true
 
 [params]
-enablePosts = true
+enablePosts = false

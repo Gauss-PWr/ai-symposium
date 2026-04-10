@@ -12,15 +12,15 @@
 
 <section id="schedule" class="panel">
   <div class="panel-head">
-    <h2>Schedule</h2>
-    <a href="{{ with site.GetPage "/abstracts" }}{{ .RelPermalink }}{{ end }}">See abstracts</a>
+    <h2>Harmonogram</h2>
+    <a href="{{ with site.GetPage "/abstracts" }}{{ .RelPermalink }}{{ end }}">Abstrakty</a>
   </div>
   {{ if gt (len $dayKeys) 0 }}
     {{ range sort $dayKeys }}
       {{ $day := . }}
       {{ $slots := index hugo.Data.schedule $day }}
       <article class="schedule-day">
-        <h3>{{ $day }}</h3>
+        <!-- <h3>{{ $day }}</h3> -->
         <ul class="schedule-list">
           {{ range $slots }}
             <li class="schedule-item">
@@ -33,8 +33,6 @@
                         <h4>{{ .name }}</h4>
                         {{ with .speaker }}<p class="schedule-speaker">{{ . }}</p>{{ end }}
                         {{ with .location }}<p class="schedule-meta">{{ . }}</p>{{ end }}
-                        {{ with .type }}<p class="schedule-meta">Track: {{ . }}</p>{{ end }}
-                        {{ with .abstract }}<p>{{ . | markdownify }}</p>{{ end }}
                       </li>
                     {{ end }}
                   </ul>
