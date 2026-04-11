@@ -48,6 +48,8 @@
   events:
     - name: "AI z polskim paszportem. Budowa suwerenności w dobie globalnych gigantów"
       speaker: "Mikołaj Lagner"
+      location: "Independent Researcher"
+
 - time: "18:40 - 19:00"
   events:
     - name: "Niemożliwe że tu wcisnęliśmy AI, czyli obliczeniowe mierzenie polaryzacji politycznej"
