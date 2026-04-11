@@ -63,9 +63,20 @@
 
   // ── resize ─────────────────────────────────────────────────
   let resizeTimer;
+  let stableMobileHeight = 0;
   function resize() {
-    W = window.innerWidth;
-    H = window.innerHeight;
+    const prevW = W;
+    const nextW = window.innerWidth;
+    const nextH = window.innerHeight;
+    const isMobile = nextW < 760;
+
+    W = nextW;
+    if (isMobile && stableMobileHeight > 0 && nextW === prevW) {
+      H = stableMobileHeight;
+    } else {
+      H = nextH;
+    }
+
     const dprCap = W < 760 ? 1.75 : 2;
     DPR = Math.min(window.devicePixelRatio || 1, dprCap);
 
@@ -77,6 +88,10 @@
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
+
+    if (isMobile) {
+      stableMobileHeight = H;
+    }
 
     initWaves();
     initParticles();
