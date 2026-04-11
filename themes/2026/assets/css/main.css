@@ -1,6 +1,11 @@
 @import "components/header.css";
 @import "components/footer.css";
 @import "components/ai-bg-animation.css";
+@import "components/schedule.css";
+@import "components/abstracts.css";
+@import "components/organizers.css";
+@import "components/hero.css";
+
 
 html {
   background: linear-gradient(145deg, #091522, #101a2d 42%, #1f1c2f 100%);
@@ -34,14 +39,6 @@ section {
 }
 
 .hero {
-  /* border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 1rem; */
-  /* background: linear-gradient(
-    140deg,
-    rgba(10, 25, 42, 0.74),
-    rgba(47, 38, 74, 0.6)
-  ); */
-  /* backdrop-filter: blur(5px); */
   margin-top: 1rem;
   overflow: hidden;
 }
@@ -68,15 +65,6 @@ section {
   text-align: center;
   gap: -0.3rem;
   line-height: 0.95;
-}
-
-.eyebrow {
-  margin: 0;
-  color: #ffbf70;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.76rem;
-  font-weight: 700;
 }
 
 .hero h1 {
@@ -142,100 +130,32 @@ section {
   flex-wrap: wrap;
 }
 
-.schedule-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 0.9rem;
-}
-
-.schedule-item {
-  display: grid;
-  grid-template-columns: minmax(96px, 128px) 1fr;
-  gap: 1rem;
-  border-radius: 0.7rem;
-  padding: 0.9rem;
-  background: rgba(126, 229, 255, 0.08);
-}
-
-.schedule-time {
-  margin: 0;
-  font-weight: 700;
-  color: #ffd08e;
-}
-
-.schedule-speaker,
-.abstract-speaker {
-  margin: 0.1rem 0 0.35rem;
-  color: #c8d2e6;
-  font-size: 0.94rem;
-  font-style: italic;
-}
-
-.schedule-meta {
-  margin: 0;
-  color: #b4c2dd;
-  font-size: 0.88rem;
-}
-
-.schedule-day {
-  margin-top: 1rem;
-}
-
-.schedule-day h3 {
-  margin: 0 0 0.6rem;
-  color: #ffe0a9;
-}
-
-.schedule-events {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 0.55rem;
-}
-
-.schedule-events h4 {
-  margin: 0;
-}
-
-.schedule-item h3,
-.abstract-card h3 {
-  margin: 0;
-}
-
-.abstract-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.9rem;
-}
-
-.abstract-card {
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 0.75rem;
-  padding: 1rem;
-  background: rgba(24, 30, 54, 0.72);
-}
-
-.reveal-first-visit {
+.reveal-observer {
   opacity: 0;
-  transform: translateY(22px);
+  transform: translateY(-20px);
   transition: opacity 600ms ease, transform 560ms ease;
 }
 
-.reveal-first-visit.reveal-visible {
+.hero-logo {
+  opacity: 0;
+  transform: translateY(-100px);
+  transition: opacity 600ms ease, transform 560ms ease;
+}
+
+
+.reveal-observer.reveal-observer-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.reveal-first-visit.reveal-hero-logo {
-  transform: translateY(28px);
-  transition: opacity 3980ms ease, transform 3100ms cubic-bezier(0.22, 1, 0.36, 1);
+.reveal-observer-hero-logo.reveal-observer-visible {
+  opacity: 1;
+  transform: translateY(0px);
+  transition: opacity 4s ease, transform 4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal-first-visit {
+  .reveal-observer {
     opacity: 1;
     transform: none;
     transition: none;
@@ -255,15 +175,6 @@ code {
 
   .hero-inner {
     padding: 2rem 1rem;
-  }
-
-  .schedule-item {
-    grid-template-columns: 1fr;
-    gap: 0.35rem;
-  }
-
-  .abstract-grid {
-    grid-template-columns: 1fr;
   }
 
   .site-nav {

@@ -2,6 +2,7 @@
   events:
     - name: "Otwarcie konferencji"
       speaker: "prof. dr hab. Krzysztof Bogadan"
+      location: "Wydział Matematyki"
 - time: "15:15 - 15:40"
   events:
     - name: "Od pikseli do fizyki - uczenie maszynowe w analizie anomalnej dyfuzji"
@@ -13,7 +14,7 @@
 - time: "15:50 - 16:15"
   events:
     - name: "AI w BNY: Od strategii do skalowalnej wartości przedsiębiorstwa"
-      speaker: "Marcin Lipa, Grzegorz Kotkowski"
+      speaker: "Marcin Lipa (Director @ AltOps), dr. Grzegorz Kotkowski ( Vice President @ AI Hub Engineering Team)"
       location: "BNY"
 - time: "16:15 - 16:35"
   events:
@@ -40,8 +41,8 @@
     - name: "Przerwa Networkingowa"
 - time: "17:55 - 18:20"
   events:
-    - name: "Trigram Indices for Efficient Log Search at Scale"
-      speaker: "Maciej Trojnar"
+    - name: "Efektywne przeszukiwanie logów za pomocą indeksów trigramowych na dużą skale"
+      speaker: "Maciej Trojnar (Senior Data Engineer)"
       location: "NOKIA"
 - time: "18:20 - 18:40"
   events:

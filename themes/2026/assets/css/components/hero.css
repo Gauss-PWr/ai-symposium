@@ -1,0 +1,27 @@
+
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-description {
+  margin-top: 0.5rem;
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.sign-up {
+  margin-top: 1rem;
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: #ffcf90;
+  color: #091522;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 999px;
+}

@@ -1,28 +1,30 @@
 import "./ai-bg-animation.js";
 
 
-function initHomeFirstVisitObserver() {
+function initHomeRevealObserver() {
 	const scheduleSection = document.getElementById("schedule");
 	if (!scheduleSection) return;
 
 	
 	const revealTargets = document.querySelectorAll(
-		".hero-logo, .panel, .schedule-day, .schedule-item"
+		".hero-logo, .panel, .schedule-day, .schedule-item, .hero-description"
 	);
 	if (revealTargets.length === 0) return;
 
 	revealTargets.forEach((el) => {
-		el.classList.add("reveal-first-visit");
-		if (el.classList.contains("hero-logo")) {
-			el.classList.add("reveal-hero-logo");
-		}
+        if (el.classList.contains("hero-logo")) {
+            el.classList.add("reveal-observer-hero-logo");
+    
+		} else {
+            el.classList.add("reveal-observer");
+        }
 	});
 
 	const observer = new IntersectionObserver(
 		(entries) => {
 			entries.forEach((entry) => {
 				if (!entry.isIntersecting) return;
-				entry.target.classList.add("reveal-visible");
+				entry.target.classList.add("reveal-observer-visible");
 				observer.unobserve(entry.target);
 			});
 		},
@@ -37,7 +39,7 @@ function initHomeFirstVisitObserver() {
 }
 
 if (document.readyState === "loading") {
-	document.addEventListener("DOMContentLoaded", initHomeFirstVisitObserver);
+	document.addEventListener("DOMContentLoaded", initHomeRevealObserver);
 } else {
-	initHomeFirstVisitObserver();
+	initHomeRevealObserver();
 }

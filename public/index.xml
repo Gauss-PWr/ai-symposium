@@ -37,7 +37,7 @@
       <description>&lt;p&gt;Wysyłanie wrażliwych danych obywateli do zagranicznych chmur to ryzyko, na które sektor publiczny nie może sobie pozwolić. Podczas wystąpienia opowiem o koncepcji suwerennej AI - budowie bezpiecznych, polskich modeli językowych stanowiących fundament cyfrowej infrastruktury. Wyjaśnię, dlaczego w krytycznych obszarach, takich jak administracja czy medycyna, dedykowane i hostowane lokalnie modele są znacznie bezpieczniejszą alternatywą dla komercyjnych &amp;ldquo;czarnych skrzynek&amp;rdquo;.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Trigram Indices for Efficient Log Search at Scale</title>
+      <title>Efektywne przeszukiwanie logów za pomocą indeksów trigramowych na dużą skale</title>
       <link>https://gauss.pwr.edu.pl/ai-symposium/abstracts/trigram-indices-log-search/</link>
       <pubDate>Fri, 17 Apr 2026 17:55:00 +0100</pubDate>
       <guid>https://gauss.pwr.edu.pl/ai-symposium/abstracts/trigram-indices-log-search/</guid>

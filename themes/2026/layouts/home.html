@@ -1,52 +1,11 @@
 {{ define "main" }}
 {{ partial "ai-bg-animation.html" . }}
 
-{{ $dayKeys := slice }}
-{{ with hugo.Data.schedule }}
-  {{ range $k, $_ := . }}
-    {{ $dayKeys = $dayKeys | append $k }}
-  {{ end }}
-{{ end }}
+{{ partial "sections/hero.html" . }}
 
-{{ partial "hero.html" . }}
+{{ partial "sections/schedule.html" . }}
 
-<section id="schedule" class="panel">
-  <div class="panel-head">
-    <h2>Harmonogram</h2>
-    <a href="{{ with site.GetPage "/abstracts" }}{{ .RelPermalink }}{{ end }}">Abstrakty</a>
-  </div>
-  {{ if gt (len $dayKeys) 0 }}
-    {{ range sort $dayKeys }}
-      {{ $day := . }}
-      {{ $slots := index hugo.Data.schedule $day }}
-      <article class="schedule-day">
-        <!-- <h3>{{ $day }}</h3> -->
-        <ul class="schedule-list">
-          {{ range $slots }}
-            <li class="schedule-item">
-              <p class="schedule-time">{{ .time }}</p>
-              <div>
-                {{ with .events }}
-                  <ul class="schedule-events">
-                    {{ range . }}
-                      <li>
-                        <h4>{{ .name }}</h4>
-                        {{ with .speaker }}<p class="schedule-speaker">{{ . }}</p>{{ end }}
-                        {{ with .location }}<p class="schedule-meta">{{ . }}</p>{{ end }}
-                      </li>
-                    {{ end }}
-                  </ul>
-                {{ else }}
-                  <p>No events for this timeslot.</p>
-                {{ end }}
-              </div>
-            </li>
-          {{ end }}
-        </ul>
-      </article>
-    {{ end }}
-  {{ else }}
-    <p>Add schedule data files in <code>themes/2026/data/schedule</code> using <code>YYYY-MM-DD.yml</code>.</p>
-  {{ end }}
-</section>
+{{ partial "sections/organizers.html" . }}
+
+<!-- {{ partial "sections/contact.html" . }} -->
 {{ end }}
