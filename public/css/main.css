@@ -263,7 +263,6 @@ section {
   opacity: 0;
   transform: translateY(22px);
   transition: opacity 600ms ease, transform 560ms ease;
-  will-change: opacity, transform;
 }
 .reveal-first-visit.reveal-visible {
   opacity: 1;

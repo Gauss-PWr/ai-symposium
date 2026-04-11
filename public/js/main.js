@@ -5,6 +5,7 @@
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     let W = 0, H = 0, t = 0;
+    let DPR = 1;
     const C = {
       bg: "#00000e",
       cyan: "#00d4ff",
@@ -14,7 +15,8 @@
     };
     let waves = [];
     function initWaves() {
-      waves = Array.from({ length: 9 }, () => ({
+      const waveCount = W < 760 ? 6 : 9;
+      waves = Array.from({ length: waveCount }, () => ({
         yBase: Math.random() * H,
         amp: 18 + Math.random() * 52,
         freq: 22e-4 + Math.random() * 38e-4,
@@ -25,11 +27,39 @@
         lw: 0.4 + Math.random() * 0.9
       }));
     }
+    let particles = [];
+    let connectionLimit = 88;
+    let connectionLimitSquared = connectionLimit * connectionLimit;
+    function initParticles() {
+      const isMobile = W < 760;
+      const particleCount = isMobile ? Math.min(56, Math.max(24, Math.floor(W * H / 14e3))) : Math.min(90, Math.max(45, Math.floor(W * H / 7e3)));
+      connectionLimit = isMobile ? 72 : 88;
+      connectionLimitSquared = connectionLimit * connectionLimit;
+      particles = Array.from({ length: particleCount }, () => ({
+        x: Math.random() * (W || 800),
+        y: Math.random() * (H || 600),
+        vx: (Math.random() - 0.5) * 0.32,
+        vy: (Math.random() - 0.5) * 0.32,
+        r: Math.random() * 1.7 + 0.5,
+        alpha: Math.random() * 0.6 + 0.2,
+        hue: Math.random() > 0.5 ? C.cyan : C.purple
+      }));
+    }
     let resizeTimer;
     function resize() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
+      W = window.innerWidth;
+      H = window.innerHeight;
+      const dprCap = W < 760 ? 1.75 : 2;
+      DPR = Math.min(window.devicePixelRatio || 1, dprCap);
+      canvas.width = Math.max(1, Math.floor(W * DPR));
+      canvas.height = Math.max(1, Math.floor(H * DPR));
+      canvas.style.width = `${W}px`;
+      canvas.style.height = `${H}px`;
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
       initWaves();
+      initParticles();
       ctx.fillStyle = C.bg;
       ctx.fillRect(0, 0, W, H);
     }
@@ -257,7 +287,6 @@
             ctx.globalAlpha = 1 + edgeActivation * 0.4;
             ctx.strokeStyle = C.white;
             ctx.lineWidth = edgeLineBase + edgeActivation * 1.2;
-            ctx.shadowColor = C.cyan;
             const dx = nodeB.x - nodeA.x;
             const dy = nodeB.y - nodeA.y;
             const distance = Math.hypot(dx, dy) || 1;
@@ -274,7 +303,6 @@
           }
         }
       }
-      ctx.shadowBlur = 0;
       const allNodes = NN.layers.flat();
       for (const node of allNodes) {
         const baseRadius = nodeRadius;
@@ -295,27 +323,12 @@
         ctx.globalAlpha = 0.9 + activation * 0.3;
         ctx.strokeStyle = C.white;
         ctx.lineWidth = borderLineBase + activation * 1.5;
-        ctx.shadowColor = C.white;
         ctx.beginPath();
         ctx.arc(node.x, node.y, baseRadius, 0, Math.PI * 2);
         ctx.stroke();
       }
       ctx.restore();
     }
-    const N_PART = Math.min(
-      90,
-      Math.max(45, Math.floor(screen.width * screen.height / 7e3))
-    );
-    const CONN_D2 = 88 * 88;
-    const particles = Array.from({ length: N_PART }, () => ({
-      x: Math.random() * (window.innerWidth || 800),
-      y: Math.random() * (window.innerHeight || 600),
-      vx: (Math.random() - 0.5) * 0.32,
-      vy: (Math.random() - 0.5) * 0.32,
-      r: Math.random() * 1.7 + 0.5,
-      alpha: Math.random() * 0.6 + 0.2,
-      hue: Math.random() > 0.5 ? C.cyan : C.purple
-    }));
     function updateParticles() {
       for (const p of particles) {
         p.x += p.vx;
@@ -329,17 +342,16 @@
     function drawParticles() {
       ctx.save();
       ctx.lineWidth = 0.4;
-      ctx.shadowBlur = 0;
       for (let i = 0; i < particles.length; i++) {
         const a = particles[i];
         for (let j = i + 1; j < particles.length; j++) {
           const b = particles[j];
           const dx = a.x - b.x;
-          if (Math.abs(dx) > 88) continue;
+          if (Math.abs(dx) > connectionLimit) continue;
           const dy = a.y - b.y;
           const d2 = dx * dx + dy * dy;
-          if (d2 < CONN_D2) {
-            ctx.globalAlpha = (1 - d2 / CONN_D2) * 0.13;
+          if (d2 < connectionLimitSquared) {
+            ctx.globalAlpha = (1 - d2 / connectionLimitSquared) * 0.13;
             ctx.strokeStyle = C.cyan;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
@@ -351,8 +363,6 @@
       for (const p of particles) {
         ctx.globalAlpha = p.alpha;
         ctx.fillStyle = p.hue;
-        ctx.shadowColor = p.hue;
-        ctx.shadowBlur = 6;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
@@ -406,8 +416,6 @@
         ctx.globalAlpha = w.alpha;
         ctx.strokeStyle = w.color;
         ctx.lineWidth = w.lw;
-        ctx.shadowColor = w.color;
-        ctx.shadowBlur = 3;
         ctx.beginPath();
         for (let x = 0; x <= W; x += step) {
           const y = w.yBase + Math.sin(x * w.freq + w.phase) * w.amp;
@@ -442,7 +450,6 @@
       ctx.save();
       ctx.translate(W * 0.52, H * 0.6 + floatY);
       ctx.globalAlpha = 0.34;
-      ctx.shadowBlur = 16;
       ctx.drawImage(
         handImage,
         -targetWidth * 0.58,
