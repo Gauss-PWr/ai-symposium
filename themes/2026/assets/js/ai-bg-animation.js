@@ -107,7 +107,7 @@
   // ── perspective grid ───────────────────────────────────────
   const GC = 24,
     GR = 15;
-  const GW = 3.2,
+  const GW = 5.2,
     GD = 2.8;
   const CAM_Y = 1.25,
     CAM_Z = -0.25,
@@ -117,22 +117,25 @@
     const rz = gz - CAM_Z;
     if (rz < 0.001) return null;
     const sc = FOCAL / rz;
-    const half = W * 0.44;
+    const half = W * (W < 760 ? 0.48 : 0.62);
+    const baseY = H * (W < 760 ? 0.74 : 0.3);
     return {
       x: W * 0.5 + gx * sc * half,
-      y: H * 0.74 - (gy - CAM_Y) * sc * half,
+      y: baseY - (gy - CAM_Y) * sc * half,
     };
   }
 
   function drawGrid() {
+    const isDesktop = W >= 760;
     ctx.save();
-    ctx.lineWidth = 0.5;
+    ctx.lineWidth = isDesktop ? 1.5 : 0.5;
 
     for (let r = 0; r <= GR; r++) {
       const gz = (r / GR) * GD + 0.18;
       const depth = (gz - 0.18) / GD;
       if (depth < 0.01) continue;
-      ctx.globalAlpha = depth * depth * 0.55;
+      ctx.globalAlpha =
+        depth * depth * (isDesktop ? 0.9 : 0.55) + (isDesktop ? 0.06 : 0);
       ctx.strokeStyle = C.purple;
       ctx.beginPath();
       let started = false;
@@ -153,7 +156,8 @@
       const gx = (c / GC - 0.5) * GW;
       const edgeFade = 1 - Math.abs(gx / (GW * 0.5)) * 0.9;
       if (edgeFade <= 0) continue;
-      ctx.globalAlpha = edgeFade * 0.22;
+      ctx.globalAlpha =
+        edgeFade * (isDesktop ? 0.34 : 0.22) + (isDesktop ? 0.04 : 0);
       ctx.strokeStyle = C.cyan;
       ctx.beginPath();
       let started = false;
@@ -255,7 +259,7 @@
     });
 
     const maxDuration = Math.max(
-      ...allNodes.map((node) => node.activationDuration)
+      ...allNodes.map((node) => node.activationDuration),
     );
     activationCycleEnd =
       startTime + (allNodes.length - 1) * NODE_STAGGER + maxDuration + 900;
@@ -278,7 +282,7 @@
     const cx = W * 0.5;
     const cy = H * 0.4;
     const s = Math.min(W * 0.21, H * 0.24, 190);
-    const horizontalGap = s * 0.90; // Gap between layers (now horizontal) - reduced
+    const horizontalGap = s * 0.9; // Gap between layers (now horizontal) - reduced
 
     // Layer 0 (input) - 2 nodes centered vertically on the left
     NN.layers[0][0] = {
@@ -339,10 +343,13 @@
     });
 
     // If the current wave has completed and every node is inactive, prepare the next run.
-    if (t >= activationCycleEnd && allNodes.every((node) => node.activation === 0)) {
+    if (
+      t >= activationCycleEnd &&
+      allNodes.every((node) => node.activation === 0)
+    ) {
       activationCycleRestartAt = Math.max(
         activationCycleRestartAt,
-        t + 2200 + Math.random() * 4200
+        t + 2200 + Math.random() * 4200,
       );
     }
   }
@@ -402,7 +409,13 @@
         ctx.globalAlpha = activation * 0.08 * g;
         ctx.fillStyle = C.white;
         ctx.beginPath();
-        ctx.arc(node.x, node.y, glowRadius + g * (baseRadius * 0.1), 0, Math.PI * 2);
+        ctx.arc(
+          node.x,
+          node.y,
+          glowRadius + g * (baseRadius * 0.1),
+          0,
+          Math.PI * 2,
+        );
         ctx.fill();
       }
 
@@ -488,7 +501,7 @@
       y: Math.random() * (window.innerHeight || 600),
       speed: 0.12 + Math.random() * 0.42,
       chars: Array.from({ length: 5 + Math.floor(Math.random() * 9) }, () =>
-        Math.random() > 0.5 ? "1" : "0"
+        Math.random() > 0.5 ? "1" : "0",
       ),
       alpha: 0.08 + Math.random() * 0.28,
       size: 10 + Math.floor(Math.random() * 5),
@@ -568,15 +581,18 @@
     if (!handImage.complete || handImage.naturalWidth === 0) return;
 
     const floatY = Math.sin(t * 0.00115) * 8;
-    const sway = Math.sin(t * 0.00062) * 0.04;
-    const targetWidth = Math.min(W * 0.60, 980);
+    const isMobile = W < 760;
+    const baseWidth = Math.min(W * 0.6, 980);
+    const targetWidth = isMobile
+      ? Math.min(baseWidth * 1.5, W * 1.2)
+      : baseWidth;
     const aspect = handImage.naturalHeight / handImage.naturalWidth;
     const targetHeight = targetWidth * aspect;
 
     ctx.save();
     ctx.translate(W * 0.52, H * 0.6 + floatY);
     // ctx.rotate(-0.34 + sway);
-    ctx.globalAlpha = 0.34;
+    ctx.globalAlpha = 0.8;
     // ctx.shadowColor = C.cyan;
     // ctx.shadowBlur = 16;
     ctx.drawImage(
@@ -584,7 +600,7 @@
       -targetWidth * 0.58,
       -targetHeight * 0.47,
       targetWidth,
-      targetHeight
+      targetHeight,
     );
 
     ctx.restore();

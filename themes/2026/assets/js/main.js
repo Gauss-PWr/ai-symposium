@@ -1,5 +1,27 @@
 import "./ai-bg-animation.js";
 
+function initBackgroundDimOnScroll() {
+  const clamp01 = (value) => Math.max(0, Math.min(1, value));
+  const bgCanvas = document.getElementById("bg");
+
+  const updateDimState = () => {
+    const start = window.innerHeight * 0.08;
+    const rampDistance = window.innerHeight * 1.05;
+    const progress = (window.scrollY - start) / rampDistance;
+    const dimStrength = clamp01(progress * 1.5);
+    document.body.style.setProperty("--bg-dim-strength", `${dimStrength}`);
+
+    if (bgCanvas) {
+      const bgOpacity = 1 - dimStrength * 0.95;
+      bgCanvas.style.opacity = `${Math.max(0.1, bgOpacity)}`;
+    }
+  };
+
+  updateDimState();
+  window.addEventListener("scroll", updateDimState, { passive: true });
+  window.addEventListener("resize", updateDimState);
+}
+
 function initHomeRevealObserver() {
   const scheduleSection = document.getElementById("schedule");
   if (!scheduleSection) return;
@@ -18,8 +40,8 @@ function initHomeRevealObserver() {
   });
 
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
-  const observerThreshold = isMobile ? 0.05 : 0.16;
-  const observerRootMargin = isMobile ? "0px 0px 20% 0px" : "0px 0px -10% 0px";
+  const observerThreshold = isMobile ? 0.1 : 0.16;
+  const observerRootMargin = isMobile ? "0px 0px 5% 0px" : "0px 0px -10% 0px";
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -40,7 +62,11 @@ function initHomeRevealObserver() {
 }
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initHomeRevealObserver);
+  document.addEventListener("DOMContentLoaded", () => {
+    initBackgroundDimOnScroll();
+    initHomeRevealObserver();
+  });
 } else {
+  initBackgroundDimOnScroll();
   initHomeRevealObserver();
 }
