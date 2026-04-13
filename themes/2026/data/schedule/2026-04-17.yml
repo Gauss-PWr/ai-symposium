@@ -1,12 +1,12 @@
 - time: "15:00 - 15:15"
   events:
     - name: "Otwarcie konferencji"
-      speaker: "prof. dr hab. Krzysztof Bogadan"
+      speaker: "prof. dr hab. Krzysztof Bogdan"
       location: "Wydział Matematyki"
 - time: "15:15 - 15:40"
   events:
     - name: "Od pikseli do fizyki - uczenie maszynowe w analizie anomalnej dyfuzji"
-      speaker: "prof. dr hab. Janusz Szwabiński"
+      speaker: "dr hab. Janusz Szwabiński"
       location: "Wydział Matematyki"
 - time: "15:40 - 15:50"
   events:
