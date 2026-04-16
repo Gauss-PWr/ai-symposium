@@ -30,7 +30,7 @@
   events:
     - name: "Regresja cech hemodynamicznych do estymacji spadku ciśnienia z ograniczeniami fizycznymi"
       speaker: "Kuba Chojnacki"
-      location: "Independent Researcher"
+      location: "Hemolens Diagnostics"
 - time: "17:15 - 17:35"
   events:
     - name: "Synteza elementów metalicznych 3D w tomografii komputerowej, podejście oparte na modelach generatywnych GAN"
